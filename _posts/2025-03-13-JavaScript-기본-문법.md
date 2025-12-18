@@ -3,7 +3,7 @@ layout: post
 title: "JavaScript 기본 문법"
 date: 2025-03-13 23:00:22 +0900
 categories: KB_ITs_Your_Life_6th
-tags: [자바스크립트, javascript, js, arrowfunction]
+tags: [자바스크립트, javascript, js, arrowfunction, network, java, web]
 ---
 
 토스 프론트 개발자 채용 공고를 봤다.

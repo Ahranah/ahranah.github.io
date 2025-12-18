@@ -3,7 +3,7 @@ layout: post
 title: "Computer Architecture_MIPS Code Examples(1)"
 date: 2024-07-01 01:48:12 +0900
 categories: [Computer Science, Computer Structure]
-tags: [recursive, 재귀함수, mips, Assembly, 어셈블리어, nested procedure, 피드백환영, 아는척은금지]
+tags: [recursive, 재귀함수, mips, assembly, 어셈블리어, nested, procedure, 피드백환영, 아는척은금지, network]
 ---
 
 DP 프로그래밍에서 재귀함수를 이용했어요. 재귀함수 호출이 메모리에 어떻게 할당되는지 단계들을 살펴보면 복습에도 좋을 것 같아서! 다뤄보고자 합니다. 

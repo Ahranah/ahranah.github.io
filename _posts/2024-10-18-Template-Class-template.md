@@ -3,7 +3,7 @@ layout: post
 title: "[Template] Class template"
 date: 2024-10-18 02:06:02 +0900
 categories: [Computer Science, Object Oriented Programming]
-tags: [클래스 템플릿, 템플릿 클래스, 템플릿 매개변수]
+tags: [클래스, 템플릿, 매개변수]
 ---
 
 # 함수 템플릿과 클래스 템플릿

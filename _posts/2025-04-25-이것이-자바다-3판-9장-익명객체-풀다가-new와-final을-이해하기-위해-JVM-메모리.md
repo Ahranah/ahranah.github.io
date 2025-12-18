@@ -3,7 +3,7 @@ layout: post
 title: "이것이 자바다(3판) 9장 익명객체 풀다가 new와 final을 이해하기 위해 JVM 메모리 동작 공부"
 date: 2025-04-25 01:21:52 +0900
 categories: [Computer Science, Object Oriented Programming]
-tags: [new, final, Heap, stack, Stringpool, LocalVariable, anonymousobject, 지역변수final, stringnew]
+tags: [new, final, heap, stack, stringpool, localvariable, anonymousobject, 지역변수final, stringnew]
 ---
 
 ## 7.다음 Chatting 클래스는 컴파일 에러가 발생합니다. 원인을 설명해보세요.

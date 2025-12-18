@@ -3,7 +3,7 @@ layout: post
 title: "1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance"
 date: 2025-12-11 00:32:11 +0900
 categories: [Algorithm, Leetcode]
-tags: [dp]
+tags: [dp, algorithm]
 ---
 
 [Find the City With the Smallest Number of Neighbors at a Threshold Distance - LeetCode](https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/description/)

@@ -3,7 +3,7 @@ layout: post
 title: "[SQL] SELECT, INSERT, DELETE, UPDATE"
 date: 2024-10-23 01:10:02 +0900
 categories: [Computer Science, DataBase]
-tags: [join, sql, insert, update, delete, select, Subquery]
+tags: [join, sql, insert, update, delete, select, subquery, database]
 ---
 
 # SQL과 관계대수가 뭐가 다른가?

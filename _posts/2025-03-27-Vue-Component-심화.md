@@ -3,7 +3,7 @@ layout: post
 title: "[Vue] Component 심화"
 date: 2025-03-27 16:36:51 +0900
 categories: KB_ITs_Your_Life_6th
-tags: [slot, vue, prop, EMIT]
+tags: [slot, vue, prop, emit, web]
 ---
 
 ## Style : CSS
