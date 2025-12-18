@@ -2,17 +2,17 @@
   "basics": {
     "name": "Hyein Jeong",
     "label": "Backend Engineer",
-    "image": "",
+    "image": "JHI.jpg",
     "email": "window7651@gmail.com",
     "phone": "",
-    "url": "https://ahranah.io",
+    "url": "https://github.com/ahranah",
   },
   
     "profiles": [
       {
-        "network": "GitHub",
-        "username": "ahranah",
-        "url": "https://github.com/ahranah"
+        "network": "Youtube",
+        "username": "ahranabanana",
+        "url": "https://youtube.com/@ahranbanana"
       },
       {
         "network": "TechBlog",
