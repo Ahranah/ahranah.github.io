@@ -21,13 +21,13 @@ CCW(Counter-Clockwise): 평면상의 3개의 점과 관련된 점의 위치 관�
 
 이를 이해하기 위해선 벡터의 외적 개념 이해가 필요하다. 
 
-{% include figure.liquid loading="eager" path="assets/img/posts/2025-06-04-java-boj-11758-ccw-counter-clo/img.png" class="img-fluid rounded z-depth-1" %}
+{% include figure.liquid loading="eager" path="assets/img/posts/Algorithm/Boj/2025-06-04-java-boj-11758-ccw-counter-clo/img.png" class="img-fluid rounded z-depth-1" %}
 
 CCW = (X1Y2 + X2Y3 + X3Y1) - (X2Y1 + X3Y2 + X1Y3)
 
 벡터의 외적이 |CCW| / 2는 세 점으로 이뤄진 삼각형의 넓이로 이해하면 된다. 
 
-{% include figure.liquid loading="eager" path="assets/img/posts/2025-06-04-java-boj-11758-ccw-counter-clo/img_1.png" class="img-fluid rounded z-depth-1" %}
+{% include figure.liquid loading="eager" path="assets/img/posts/Algorithm/Boj/2025-06-04-java-boj-11758-ccw-counter-clo/img_1.png" class="img-fluid rounded z-depth-1" %}
 
 1. 1번째 점을 뒤에 한 번 더 씁니다.
 

@@ -1,97 +1,106 @@
 - title: General Information
   type: map
   contents:
-    - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
+    - name: Hyein Jeong
+      value: 
     - name: Languages
-      value: English, German
+      value: Korean, English
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: Bachelor's Degree in Computer Science
+      institution: Kyung Hee University
+      year: 2020 - 2025
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+        - Strong foundation in algorithms, data structures, and software engineering
+        - Focused on backend development and database systems
+        - Relevant coursework in Operating Systems, Database Management, and Network Programming
 
 - title: Experience
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: Backend Engineer
+      year: 2023 - Present
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
+        - Developed and maintained scalable backend services using Java and Spring Framework
+        - Designed and optimized database schemas and queries for improved performance
+        - Implemented RESTful APIs and microservices architecture
+        - title: Key Technologies
           contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+            - Java, C++, Python
+            - Spring Framework, Spring Boot
+            - MySQL, PostgreSQL, MongoDB
+            - Git, Docker, Linux
+
+    - title: Full-Stack Developer
+      year: 2022 - 2023
       description:
-        - Description 1.
-        - Description 2.
+        - Built full-stack web applications with modern frameworks
+        - Collaborated with cross-functional teams in agile environment
+        - Implemented security best practices and authentication systems
 
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
-      description:
-
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
+- title: Certifications & Awards
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - year: 2025
+      items:
+        - 빅데이터분석기사 (Big Data Analyst Engineer)
+        - 매경테스트 최우수 (Maeil Business Test - Outstanding)
+    - year: 2024
+      items:
+        - ADsP (Advanced Data Analytics Semi-Professional)
+        - SQLD (SQL Developer)
 
-- title: Honors and Awards
+- title: Projects
   type: time_table
   contents:
-    - year: 1921
+    - title: Financial IT System Development
+      year: 2022
+      description: Developed secure backend systems for finance-related applications with focus on data integrity and security
+    - title: Database Optimization Project
+      year: 2022
+      description: Improved query performance and designed efficient database schemas for high-traffic applications
+
+- title: Technical Skills
+  type: nested_list
+  contents:
+    - title: Programming Languages
       items:
-        - Nobel Prize in Physics
-        - Matteucci Medal
-    - year: 2029
+        - Java, C++, Python
+        - JavaScript, SQL
+    - title: Backend Technologies
       items:
-        - Max Planck Medal
+        - Spring Framework, Spring Boot
+        - Node.js, Express.js
+        - RESTful API Design
+    - title: Databases
+      items:
+        - MySQL, PostgreSQL, Oracle
+        - MongoDB
+        - Database Design & Optimization
+    - title: Tools & Technologies
+      items:
+        - Git, Docker, Linux
+        - Vue.js for full-stack development
+        - JDBC Programming
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
+    - title: Data Science & Machine Learning
       items:
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
+        - Big data analysis and visualization
+        - Statistical modeling and regression
+        - Deep learning fundamentals
+    - title: Software Engineering
       items:
-        - Description 1.
-        - Description 2.
+        - Object-oriented programming and design patterns
+        - System architecture and microservices
+        - Database systems and optimization
 
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+    - <u>Activities:</u> Open source contributions, Technical blogging, Algorithm problem solving
+    - <u>Learning:</u> Financial technology, Security engineering, Cloud architecture

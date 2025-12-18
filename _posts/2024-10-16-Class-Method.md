@@ -3,7 +3,7 @@ layout: post
 title: "[Class] Method"
 date: 2024-10-16 17:40:15 +0900
 categories: [Computer Science, Object Oriented Programming]
-tags: [인터페이스, static, const, this, 메서드, 멤버함수, 정적 멤버]
+tags: [인터페이스, static, const, this-pointer, 메서드, 멤버함수, 정적 멤버]
 ---
 
 Method a.k.a. Interface Function a.k.a. Member Function
