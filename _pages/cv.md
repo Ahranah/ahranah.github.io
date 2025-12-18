@@ -1,9 +1,9 @@
 ---
 layout: cv
 permalink: /
-title: cv
+title: CV
 nav: false
-description: This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.
+description: A backend engineer with strong foundations in security and finance-related IT, experienced in Java, C++, Python, Spring, databases, and full-stack web development.
 toc:
   sidebar: left
 ---
