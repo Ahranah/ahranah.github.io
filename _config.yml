@@ -246,6 +246,7 @@ exclude:
   - vendor
   - .jeckyll-cache
   - _site
+  - tmp
 keep_files:
   - CNAME
   - .nojekyll
