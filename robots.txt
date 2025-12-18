@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://ahranah.github.io/sitemap.xml
+Sitemap: https://github.com/Ahranah/sitemap.xml

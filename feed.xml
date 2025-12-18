@@ -1,666 +1,368 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ahranah.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://ahranah.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-12-18T14:01:29+00:00</updated><id>https://ahranah.github.io/feed.xml</id><title type="html">Ahranah</title><subtitle>Backend Engineer | FinTech | Security</subtitle><entry><title type="html">금융전략을 위한 머신러닝 PCA</title><link href="https://ahranah.github.io/blog/2024/PCA/" rel="alternate" type="text/html" title="금융전략을 위한 머신러닝 PCA"/><published>2024-09-30T13:18:00+00:00</published><updated>2024-09-30T13:18:00+00:00</updated><id>https://ahranah.github.io/blog/2024/PCA</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/PCA/"><![CDATA[<h2 id="71-차원-축소-기술">7.1 차원 축소 기술</h2> <ul> <li>PCA(Priciple component analysis) 주성분 분석</li> <li>KPCA(Kernel priniciple component analysis) 커널 주성분 분석</li> <li>t-SNE(t-distributed stochastic neighbor embedding) t-분산 확률적 이웃 임베딩</li> </ul> <p>정보가 없는 데이터의 변동을 무시하거나 데이터가 있는 저차원 부분공간을 식별함으로써 데이터를 저차원 공간에 투영한다. 주성분은 원본 차원과 같고 주성분으로 바꾼 데이터는 차원이 줄어든다.</p> <p>주식 포트폴리오의 위험 조정 수익 극대화를 위해 사용된다.</p> <ul> <li>위험 조정 수익(Risk-adjusted return) <blockquote> <p>투자에서 수익률을 평가할 때, 수익뿐만 아니라 수익을 얻기 위해 감소한 위험도 함께 고려하는 개념. 위험을 감안했을 때 얼마나 효율적으로 수익을 얻었는지 평가하는 데 중점을 둔다.</p> <ul> <li>Sharpe Ratio 샤프 비율: 초과 수익률(무위험 수익률 초과) / 변동성(위험) : 높을 수록 낮은 위험으로 높은 수익</li> <li>Treynor Ration 트레노어 비율: 투자자 포폴에서 체계적 위험만 고려해 수익 평가</li> <li>Alpha: 시장의 성과를 초과하는 투자 성과</li> </ul> </blockquote> </li> </ul> <h3 id="pca">PCA</h3> <p>선형 조합으로 원래 변수를 산출하는 새로운 변수셋을 찾는다. 이때 새로운 변수를 PC라고 한다. 이러한 주성분은 직교(독립적)이며 원본 데이터를 나타낼 수 있다. 주성분을 찾는 방법에는 고유 분해(Eligen decomposition)과 특이값 분해(Singular value decomposition SVD)가 있다.</p> <h4 id="고유-분해">고유 분해</h4> <blockquote> <ol> <li>특성에 대한 공분산 행렬을 생성한다.</li> <li>공분산 행렬을 계산한 다음 공분산 행렬의 고유 벡터를 계산한다. 이것이 최대 분산 방향이다.</li> <li>고윳값을 생성한다. 이는 주성분의 크기를 정의한다.</li> </ol> </blockquote> <h4 id="특이값-분해">특이값 분해</h4> <p>행렬을 세 개의 행렬로 분해하는 것으로 보다 일반적인 m x n 직사각형 행렬에 적용할 수 있다.</p> <p>SVD와 고유 분해는 항상 같은 값을 준다. SVD는 희소 행렬(0이 대부분인 행렬)을 처리할 수 있으므로 <strong>고유 분해</strong> 보다 훨씬 효율적일 수 있다. 특히 일부 특성이 강한 상관관계를 가질 때 더 좋은 수치 안정성을 산출한다.</p> <h3 id="kpca커널-주성분-분석">KPCA(커널 주성분 분석)</h3> <p>선형 변환만 가능했던 PCA를 확장하여 비선형성을 처리한다. 원본 데이터를 비선형 특성 공간(일반적으로 더 높은 차원의 공간)에 매핑한다. 그런 뒤 PCA를 적용해 해당 공간에서 주성분을 추출한다.</p> <h4 id="pca를-사용한-분산-설명">PCA를 사용한 분산 설명</h4> <p>원본 데이터의 분산량 감소는 원본 특성 간의 상관관계를 나타낸다. 분산량은 데이터의 퍼짐 정도로 어느 축을 향해 퍼져있느냐에 따라 데이터의 특정한 특성을 알 수 있다.</p> <p>고윳값이 가장 낮은 고유 벡터는 데이터셋에서 최소 변동량을 설명한다.</p> <h4 id="히트맵과-막대-그래프">히트맵과 막대 그래프</h4> <p>각 고유 벡터에서 포트폴리오에 있어서 서로 다른 종목의 기여도를 보여준다. 이를 확장하면 국제 주식 위험, 금리 위험, 상품 노출, 지리적 위험, 기타 여러 요소를 식별할 수 있다.</p> <h4 id="최고의-고유-포트폴리오-찾기">최고의 고유 포트폴리오 찾기</h4> <p>최상의 고유 포트폴리오를 결정하기 위해 샤프 비율 Sharpe ratio를 이용한다. 이는 포폴의 연간 변동성에 대한 연간 수익을 설명하는 위험 감수 대비 성과 평가 방법이다. 높은 특정 포트폴리오의 수익이 높고 변동성이 낮음을 의미한다. 연간 샤프 비율 = 연간 수익 / 연간 변동성</p> <ul> <li>연간 변동성: 수익의 표준 편차 * 연간 기간의 제곱근</li> </ul> <h4 id="고유-포트폴리오-백테스트">고유 포트폴리오 백테스트</h4> <p>백테스트란 지금의 전략을 과거에 데이터에 실험해 전략이 효과적인지 평가하는 방법이다. 상위, 하위 포트폴리오에 대해 이익을 평균 인덱스와 비교한 결과 초과, 저조한 성과는 주식 또는 부문의 가중치에 기인한다. 더 나아가 각 포트폴리오의 개별 견인 요소를 이해할 수 있다.</p> <ul> <li>종목 가중치를 확인할 수 있다.</li> <li>포트폴리오가 독립적이라는 것을 이용해 상관관계가 없는 포트폴리오에 다수 투자해 잠재적인 포트폴리오 관리 이점을 얻을 수 있다.</li> </ul> <h3 id="결론">결론</h3> <p>포트폴리오 관리와 자산 배분을 위해 PCA의 고윳값과 고유 벡터를 사용해 차원 축소 기법을 적용했다. 일부 해석성이 손실되었지만 결과 포트폴리오의 직관이 위험 요소와 일치할 수 있음을 시연해보였다. 첫 번째 포트폴리오는 체계적인 위험 요소에 노출된 반면 다른 포트폴리오는 산업 밀집으로 인한 위험 요소에 노출되었다. 백테스팅을 통해 샤프 비율을 기준으로 높은 결과를 얻은 포트폴리오가 강력한 성능을 달성했음을 알았다.</p> <p>To include a jupyter notebook in a post, you can use the following code:</p> <div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{::nomarkdown}
-<span class="cp">{%</span><span class="w"> </span><span class="nt">assign</span><span class="w"> </span><span class="nv">jupyter_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'assets/jupyter/blog.ipynb'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nf">relative_url</span><span class="w"> </span><span class="cp">%}</span>
-<span class="cp">{%</span><span class="w"> </span><span class="nt">capture</span><span class="w"> </span><span class="nv">notebook_exists</span><span class="w"> </span><span class="cp">%}{%</span><span class="w"> </span><span class="nt">file_exists</span><span class="w"> </span>assets/jupyter/blog.ipynb<span class="w"> </span><span class="cp">%}{%</span><span class="w"> </span><span class="nt">endcapture</span><span class="w"> </span><span class="cp">%}</span>
-<span class="cp">{%</span><span class="w"> </span><span class="nt">if</span><span class="w"> </span><span class="nv">notebook_exists</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'true'</span><span class="w"> </span><span class="cp">%}</span>
-  <span class="cp">{%</span><span class="w"> </span><span class="nt">jupyter_notebook</span><span class="w"> </span><span class="nv">jupyter_path</span><span class="w"> </span><span class="cp">%}</span>
-<span class="cp">{%</span><span class="w"> </span><span class="nt">else</span><span class="w"> </span><span class="cp">%}</span>
-  &lt;p&gt;Sorry, the notebook you are looking for does not exist.&lt;/p&gt;
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endif</span><span class="w"> </span><span class="cp">%}</span>
-{:/nomarkdown}
-</code></pre></div></div> <p>Let’s break it down: this is possible thanks to <a href="https://github.com/red-data-tools/jekyll-jupyter-notebook">Jekyll Jupyter Notebook plugin</a> that allows you to embed jupyter notebooks in your posts. It basically calls <a href="https://nbconvert.readthedocs.io/en/latest/usage.html#convert-html"><code class="language-plaintext highlighter-rouge">jupyter nbconvert --to html</code></a> to convert the notebook to an html page and then includes it in the post. Since <a href="https://jekyllrb.com/docs/configuration/markdown/">Kramdown</a> is the default Markdown renderer for Jekyll, we need to surround the call to the plugin with the <a href="https://kramdown.gettalong.org/syntax.html#extensions">::nomarkdown</a> tag so that it stops processing this part with Kramdown and outputs the content as-is.</p> <p>The plugin takes as input the path to the notebook, but it assumes the file exists. If you want to check if the file exists before calling the plugin, you can use the <code class="language-plaintext highlighter-rouge">file_exists</code> filter. This avoids getting a 404 error from the plugin and ending up displaying the main page inside of it instead. If the file does not exist, you can output a message to the user. The code displayed above outputs the following:</p> <div class="jupyter-notebook" style="position: relative; width: 100%; margin: 0 auto;"> <div class="jupyter-notebook-iframe-container"> <iframe src="/assets/jupyter/blog.ipynb.html" style="position: absolute; top: 0; left: 0; border-style: none;" width="100%" height="100%" onload="this.parentElement.style.paddingBottom = (this.contentWindow.document.documentElement.scrollHeight + 10) + 'px'"></iframe> </div> </div> <p>Note that the jupyter notebook supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="jupyter"/><summary type="html"><![CDATA[금융전략을 위한 머신러닝 Chap 5]]></summary></entry><entry><title type="html">a post with formatting and links</title><link href="https://ahranah.github.io/blog/2024/ANN-SupervisedLearning/" rel="alternate" type="text/html" title="a post with formatting and links"/><published>2024-09-19T14:21:16+00:00</published><updated>2024-09-19T14:21:16+00:00</updated><id>https://ahranah.github.io/blog/2024/ANN-SupervisedLearning</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/ANN-SupervisedLearning/"><![CDATA[<p>Jean shorts raw denim Vice normcore, art party High Life PBR skateboard stumptown vinyl kitsch. Four loko meh 8-bit, tousled banh mi tilde forage Schlitz dreamcatcher twee 3 wolf moon. Chambray asymmetrical paleo salvia, sartorial umami four loko master cleanse drinking vinegar brunch. <a href="https://www.pinterest.com">Pinterest</a> DIY authentic Schlitz, hoodie Intelligentsia butcher trust fund brunch shabby chic Kickstarter forage flexitarian. Direct trade <a href="https://en.wikipedia.org/wiki/Cold-pressed_juice">cold-pressed</a> meggings stumptown plaid, pop-up taxidermy. Hoodie XOXO fingerstache scenester Echo Park. Plaid ugh Wes Anderson, freegan pug selvage fanny pack leggings pickled food truck DIY irony Banksy.</p> <h4 id="hipster-list">Hipster list</h4> <h3 id="ann-artificial-neural-networks">ANN (Artificial Neural Networks)</h3> <p>인공신경망은 생물학적 뇌의 뉴런을 모사한 머신러닝 모델이다. 인공 뉴런(노드)가 연결된 집합체로 연산을 처리한다. 딥러닝은 복잡한 인공신경망 알고리즘을 다룬다. 복잡도는 정보의 흐름 패턴에 의해 좌우된다. 개념이 층층이 쌓인 계층적 구조로, 개념은 한 층이 지날수록 더 단순한 개념으로 정의된다 .</p> <ul> <li>인공 신경망 구조: 뉴런, 계층, 가중치</li> <li>인공 신경망 훈련: 순전파, 역전파, 경사 하강법</li> <li>인공 신경망 하이퍼파라미터: 계층, 노드 수, 활성화 함수, 손실 함수, 학습률</li> </ul> <h4 id="check-list">Check List</h4> <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Brush Teeth</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Put on socks <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Put on left sock</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Put on right sock</li> </ul> </li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Go to school</li> </ul> <p>Hoodie Thundercats retro, tote bag 8-bit Godard craft beer gastropub. Truffaut Tumblr taxidermy, raw denim Kickstarter sartorial dreamcatcher. Quinoa chambray slow-carb salvia readymade, bicycle rights 90’s yr typewriter selfies letterpress cardigan vegan.</p> <hr/> <p>Pug heirloom High Life vinyl swag, single-origin coffee four dollar toast taxidermy reprehenderit fap distillery master cleanse locavore. Est anim sapiente leggings Brooklyn ea. Thundercats locavore excepteur veniam eiusmod. Raw denim Truffaut Schlitz, migas sapiente Portland VHS twee Bushwick Marfa typewriter retro id keytar.</p> <blockquote> <p>We do not grow absolutely, chronologically. We grow sometimes in one dimension, and not in another, unevenly. We grow partially. We are relative. We are mature in one realm, childish in another. —Anais Nin</p> </blockquote> <p>Fap aliqua qui, scenester pug Echo Park polaroid irony shabby chic ex cardigan church-key Odd Future accusamus. Blog stumptown sartorial squid, gastropub duis aesthetic Truffaut vero. Pinterest tilde twee, odio mumblecore jean shorts lumbersexual.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="khuda_finance"/><summary type="html"><![CDATA[금융전략을 위한 머신러닝 Chap 3,4]]></summary></entry><entry><title type="html">Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra</title><link href="https://ahranah.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/" rel="alternate" type="text/html" title="Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra"/><published>2024-05-14T00:00:00+00:00</published><updated>2024-05-14T00:00:00+00:00</updated><id>https://ahranah.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.]]></summary></entry><entry><title type="html">a post with tabs</title><link href="https://ahranah.github.io/blog/2024/tabs/" rel="alternate" type="text/html" title="a post with tabs"/><published>2024-05-01T00:32:13+00:00</published><updated>2024-05-01T00:32:13+00:00</updated><id>https://ahranah.github.io/blog/2024/tabs</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/tabs/"><![CDATA[<p>This is how a post with <a href="https://github.com/Ovski4/jekyll-tabs">tabs</a> looks like. Note that the tabs could be used for different purposes, not only for code.</p> <h2 id="first-tabs">First tabs</h2> <p>To add tabs, use the following syntax:</p> <div class="language-liquid highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">{%</span><span class="w"> </span><span class="nt">tabs</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="cp">%}</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://github.com/Ahranah/feed.xml" rel="self" type="application/atom+xml"/><link href="https://github.com/Ahranah/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-12-18T17:17:18+00:00</updated><id>https://github.com/Ahranah/feed.xml</id><title type="html">Ahranah</title><subtitle>Backend Engineer | FinTech | Security</subtitle><entry><title type="html">[Oracle] 오라클 시간 처리 문법 정리</title><link href="https://github.com/Ahranah/blog/2025/Oracle-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC/" rel="alternate" type="text/html" title="[Oracle] 오라클 시간 처리 문법 정리"/><published>2025-12-16T15:48:24+00:00</published><updated>2025-12-16T15:48:24+00:00</updated><id>https://github.com/Ahranah/blog/2025/Oracle-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/Oracle-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC/"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/59413?language=oracle">입양 시각 구하기(2) Lv 4</a></p> <p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/59413?language=oracle">프로그래머스SW개발자를 위한 평가, 교육의 Total Solution을 제공하는 개발자 성장을 위한 베이스캠프programmers.co.kr</a></p> <ul> <li>DB에 없는 값을 시간은 만들어서 반환해야 함 -&gt; Recursive CTE or CONNECT BY LEVEL</li> <li>시간 추출: mysql은 hour()로 할 수 있지만 오라클은 형 명시해줘야함</li> </ul> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-12-17-oracle-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-12-17-oracle-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>Mysql 버전</p> <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">TIME_MAP</span> <span class="k">AS</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="mi">0</span> <span class="k">AS</span> <span class="n">hour</span>
+    <span class="k">UNION</span> <span class="k">ALL</span>
+    <span class="k">SELECT</span> <span class="n">hour</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">TIME_MAP</span> <span class="k">WHERE</span> <span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">23</span>
+<span class="p">)</span>
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">tab</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="nv">tab-name-1</span><span class="w"> </span><span class="cp">%}</span>
+<span class="k">SELECT</span> 
+    <span class="n">t</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span>                <span class="c1">-- 기준 테이블(t)의 시간을 선택</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">animal_id</span><span class="p">)</span>     <span class="c1">-- ID가 없으면 0으로 세야 하므로 COUNT(*) 대신 컬럼 명시</span>
+<span class="k">FROM</span> <span class="n">TIME_MAP</span> <span class="n">t</span>            <span class="c1">-- 시간 테이블이 '왼쪽'이어야 함</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">ANIMAL_OUTS</span> <span class="n">a</span> 
+    <span class="k">ON</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span> <span class="o">=</span> <span class="n">HOUR</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="nb">datetime</span><span class="p">)</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span>            <span class="c1">-- 기준 테이블(t) 기준으로 그룹핑</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span><span class="p">;</span>
+</code></pre></div></div> <p>오라클 버전</p> <ul> <li>recursive CTE -&gt; Connect by level 라는 계층형 쿼리로 변환해서 사용한다.Connect by는 ~ 조건이 될 때까지처럼 사용 가능, 내부적으로 level (무조건 1부터 시작)을 만들어서 카운트하기 때문에 이를 recursive 대신 사용한다.근데 이 때 from이 없으면 에러나기 때문에 내부에서 지원하는 dual(dummy table)을 써준다.</li> <li>오라클도 CTE 지원한다.</li> </ul> <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- 코드를 입력하세요</span>
+<span class="k">SELECT</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span> <span class="k">count</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">animal_id</span><span class="p">)</span> <span class="k">as</span> <span class="k">count</span>
+<span class="k">from</span> <span class="p">(</span>
+    <span class="k">select</span> <span class="k">level</span><span class="o">-</span><span class="mi">1</span> <span class="k">as</span> <span class="n">hour</span> <span class="c1">-- level은 1부터 시작</span>
+    <span class="k">from</span> <span class="n">dual</span>
+    <span class="k">connect</span> <span class="k">by</span> <span class="k">level</span> <span class="o">&lt;=</span> <span class="mi">24</span>
+<span class="p">)</span> <span class="n">t</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">animal_outs</span> <span class="n">a</span> 
+<span class="k">on</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span> <span class="o">=</span> <span class="n">to_number</span><span class="p">(</span><span class="n">to_char</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="nb">datetime</span><span class="p">,</span> <span class="s1">'HH24'</span><span class="p">))</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">t</span><span class="p">.</span><span class="n">hour</span>
+</code></pre></div></div> <p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/131534">상품을 구매한 직원 회원 비율 구하기</a></p> <p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/131534">프로그래머스SW개발자를 위한 평가, 교육의 Total Solution을 제공하는 개발자 성장을 위한 베이스캠프programmers.co.kr</a></p> <p>21년에 가입한 사람과, 21년에 가입한 사람 중 물건을 산 사람의 비율을 소수점 두번째자리에서 반올림해서 반환해야 한다.</p> <ul> <li>가입한 사람의 전체 인원 수는, 메인에서 Where로 조건 걸면 join 물건 산 사람할때 전체 인원 수가 날라가고, 구매한 사람 수만 남기 때문에 전체 인원수는 서브쿼리로 독립적으로 숫자를 세줘야 한다.</li> </ul> <p>오라클 준비물</p> <p>분류 코드 설명 예시 (2025-12-05 14:05:09)</p> <p>연도 YYYY 4자리 연도 2025</p> <p>YY 2자리 연도 25</p> <p>월 MM 2자리 월 (숫자) 12</p> <p>MON 월 이름 (약어) DEC (영문판), 12월 (한글판)</p> <p>일 DD 2자리 일 05</p> <p>요일 DY 요일 약어 THU, 목</p> <p>DAY 요일 전체 THURSDAY, 목요일</p> <p>시간 HH24 24시간제 (0-23) 14</p> <p>HH 12시간제 (1-12) 02</p> <p>분 MI 분 (Minute) 05 (MM 아님! 주의)</p> <p>초 SS 초 (Second) 09</p> <ul> <li>MM을 char로 뽑으면 03, 05이렇게 0이 붙어나와서 to_number 필요</li> </ul> <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">TO_CHAR</span><span class="p">(</span><span class="n">SYSDATE</span><span class="p">,</span> <span class="s1">'YYYY-MM-DD HH24:MI:SS'</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+<span class="c1">-- 결과: 2025-12-05 14:05:09</span>
 
-Content 1
+<span class="k">SELECT</span> 
+    <span class="n">to_char</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">sales_date</span><span class="p">,</span> <span class="s1">'YYYY'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">year</span><span class="p">,</span>
+    <span class="n">to_number</span><span class="p">(</span><span class="n">to_char</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">sales_date</span><span class="p">,</span> <span class="s1">'MM'</span><span class="p">))</span> <span class="k">as</span> <span class="k">month</span><span class="p">,</span>
+    <span class="k">count</span><span class="p">(</span><span class="k">distinct</span> <span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">purchased_users</span><span class="p">,</span>
+    <span class="n">round</span><span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="k">distinct</span> <span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">)</span> <span class="o">/</span> 
+          <span class="p">(</span><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">from</span> <span class="n">user_info</span> <span class="k">where</span> <span class="n">to_char</span><span class="p">(</span><span class="n">joined</span><span class="p">,</span> <span class="s1">'YYYY'</span><span class="p">)</span> <span class="o">=</span> <span class="s1">'2021'</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">purchased_ratio</span>
+<span class="k">from</span> <span class="n">user_info</span> <span class="n">a</span>
+<span class="k">join</span> <span class="n">online_sale</span> <span class="n">o</span> <span class="k">on</span> <span class="n">a</span><span class="p">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">user_id</span> 
+<span class="k">where</span> <span class="n">to_char</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">joined</span><span class="p">,</span> <span class="s1">'YYYY'</span><span class="p">)</span> <span class="o">=</span> <span class="s1">'2021'</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">to_char</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">sales_date</span><span class="p">,</span> <span class="s1">'YYYY'</span><span class="p">),</span> <span class="n">to_char</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">sales_date</span><span class="p">,</span> <span class="s1">'MM'</span><span class="p">)</span>
+<span class="k">order</span> <span class="k">by</span> <span class="nb">year</span><span class="p">,</span> <span class="k">month</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Algorithm"/><category term="프로그래머스"/><category term="Oracle"/><category term="CONNECT_BY"/><summary type="html"><![CDATA[입양 시각 구하기(2) Lv 4]]></summary></entry><entry><title type="html">프림스트라, 프림과 다익스트라 이해하기</title><link href="https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="프림스트라, 프림과 다익스트라 이해하기"/><published>2025-12-11T08:12:34+00:00</published><updated>2025-12-11T08:12:34+00:00</updated><id>https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/"><![CDATA[<p>프림은 MST 최소비용 신장 트리를 만드는 알고리즘이고, 다익스트라는 최단경로를 만드는 알고리즘이다.</p> <ul> <li>Minimum Spanning Tree는 모든 정점이 연결되어 있고 가중치 합이 최소가 되는 트리를 말한다.</li> <li>그래프는 모든 정점이 연결되어 사이클이 생겨도 되는데, 이 중에서 acylic하면 트리라고 말한다.</li> </ul> <p>둘 다 PQ를 이용해 구현하고, 가중치의 최소를 뽑는 공통점 때문에 코딩테스트를 하다가 프림스트라를 구현하는 일이 적지 않다.</p> <p>결론을 말하면, PQ에 넣는 값이 다르다. 프림은 가중치가 담긴 노드(a -&gt; b)를 모두 PQ에 넣어놓고 가장 작은 가중치를 뽑는다.</p> <p>다익스트라는 현재까지 진행된 (다음 노드까지 이동한다고 가정했을 때의) 가중치의 합이 가장 작은 값을 PQ에서 뽑는다.</p> <h2 id="greedy">Greedy</h2> <p>프림과 다익스트라 모두 현재 상황에서 가장 좋은 선택지를 선택한다는 점에서 그리디 알고리즘 중 하나라고 볼 수 있다.</p> <p>그리디는 현재 상황에서 최적의 해를 선택하는 알고리즘인데, 지금의 최적이 결과로 봤을때도 최적의 해가 되지 않을 수 있다.</p> <ul> <li>거스름돈 반환 문제</li> </ul> <p>따라서, 그리디 알고리즘은 다음과 같은 3가지 절차를 거친다.</p> <ol> <li>Selection: Greedy한 해답을 Solution Set에 넣는다.</li> <li>Feasibility Check: 해답이 실행 가능한지 결정한다.</li> <li>Solution Check: 최적의 해가 되는지 확인한다.</li> </ol> <p>이를 최소비용 신장 트리로 예시를 들면,</p> <p>시작점 i를 선택하고, 모든 노드에 대해 방문 여부를 체크하는 boolean[]을 만든다.</p> <ol> <li>(시작 노드, 종료 노드, 가중치)를 PQ에 넣을건데,PQ의 조건은 가중치를 우선순위로 둔다.</li> <li>현재 노드 i에 대해이동 가능한 노드만 PQ에 넣는다.</li> <li>최적의 해가 되는지 확인하는 절차는, 순환하지 않음을 증명하면 되는데 이동 가능한 노드의 조건을 지금 노드와 연결된 노드 중에서, 방문하지 않은 노드만을 조건으로 하면 된다.</li> </ol> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>프림은</p> <ol> <li>b에서 시작하면, PQ에 (a, d)를 넣고 d를 선택한다. 그리고 d를 방문 처리한다.</li> <li>d에서 이동가능한 (c, d, f)를 넣고 e를 선택, … e-&gt; c -&gt; a -&gt; f</li> <li>f를 고르게 되는 건 a에서 이동가능한 점이 없어서 PQ에 있던 f를 선택하게 된다.</li> </ol> <p>다익스트라는 일단 프림과 목적이 다르다. MST에 쓰는 게 아니라, 특정 위치에 도달하는 최단 거리를 구하는 것이다.</p> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img_1.png" sizes="95vw"/> <img src="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img_1.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img_2.png" sizes="95vw"/> <img src="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/img_2.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <ol> <li>PQ의 우선순위를 가중치의 합으로 둔다.</li> <li>현재 갈 수 있는 (방문하지 않은) 노드까지 가중치를 누적해서 PQ에 넣는다.</li> <li>최적의 해는, Math.min으로 항상 갱신한다.</li> </ol> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/Screenshot%202025-12-11%20at%203.51.39%E2%80%AFPM.png" sizes="95vw"/> <img src="/assets/img/posts/2025-12-11-%ED%94%84%EB%A6%BC%EC%8A%A4%ED%8A%B8%EB%9D%BC-%ED%94%84%EB%A6%BC%EA%B3%BC-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/Screenshot%202025-12-11%20at%203.51.39%E2%80%AFPM.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>위와 같은 경우는, 1, 2번인 그리디 선택과 이동 가능이 모두 만족한 사례다. 이를 위해 최적의 해로 최소값을 계속 갱신해준다.</p>]]></content><author><name></name></author><category term="Algorithm"/><category term="다익스트라"/><category term="프림"/><category term="그리디"/><summary type="html"><![CDATA[프림은 MST 최소비용 신장 트리를 만드는 알고리즘이고, 다익스트라는 최단경로를 만드는 알고리즘이다.]]></summary></entry><entry><title type="html">1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance</title><link href="https://github.com/Ahranah/blog/2025/1334-Find-the-City-With-the-Smallest-Number-of-Nei/" rel="alternate" type="text/html" title="1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance"/><published>2025-12-10T15:32:11+00:00</published><updated>2025-12-10T15:32:11+00:00</updated><id>https://github.com/Ahranah/blog/2025/1334-Find-the-City-With-the-Smallest-Number-of-Nei</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/1334-Find-the-City-With-the-Smallest-Number-of-Nei/"><![CDATA[<p><a href="https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/description/">Find the City With the Smallest Number of Neighbors at a Threshold Distance - LeetCode</a></p> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtab</span><span class="w"> </span><span class="cp">%}</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">findTheCity</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">edges</span><span class="o">,</span> <span class="kt">int</span> <span class="n">distanceThreshold</span><span class="o">)</span> <span class="o">{</span>
+        
+        <span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">tab</span><span class="w"> </span><span class="nv">group-name</span><span class="w"> </span><span class="nv">tab-name-2</span><span class="w"> </span><span class="cp">%}</span>
+        <span class="kt">int</span><span class="o">[][]</span> <span class="n">dist_dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">n</span><span class="o">];</span>
+        
+        
+        <span class="c1">// 초기화</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="c1">// 오버플로우 조심</span>
+            <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="mi">100001</span><span class="o">);</span>
+            <span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
 
-Content 2
+        <span class="c1">// w로 채우기</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">edges</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">edges</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">];</span>
+                <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">edges</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">];</span>
+                <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">edges</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">2</span><span class="o">];</span>
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtab</span><span class="w"> </span><span class="cp">%}</span>
+                <span class="n">dist_dp</span><span class="o">[</span><span class="n">a</span><span class="o">][</span><span class="n">b</span><span class="o">]</span> <span class="o">=</span> <span class="n">w</span><span class="o">;</span>
+                <span class="n">dist_dp</span><span class="o">[</span><span class="n">b</span><span class="o">][</span><span class="n">a</span><span class="o">]</span> <span class="o">=</span> <span class="n">w</span><span class="o">;</span>
+        <span class="o">}</span>        
 
-<span class="cp">{%</span><span class="w"> </span><span class="nt">endtabs</span><span class="w"> </span><span class="cp">%}</span>
-</code></pre></div></div> <p>With this you can generate visualizations like:</p> <ul id="log" class="tab" data-tab="22ef93ad-1804-4b0d-b6f3-dfef73a9bf54" data-name="log"> <li class="active" id="log-php"> <a href="#">php </a> </li> <li id="log-js"> <a href="#">js </a> </li> <li id="log-ruby"> <a href="#">ruby </a> </li> </ul> <ul class="tab-content" id="22ef93ad-1804-4b0d-b6f3-dfef73a9bf54" data-name="log"> <li class="active"> <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
-</code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">);</span>
-</code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">pputs</span> <span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span>
-</code></pre></div></div> </li> </ul> <h2 id="another-example">Another example</h2> <ul id="data-struct" class="tab" data-tab="dc714ddd-2ba9-49fa-8fc1-716aefd58fcf" data-name="data-struct"> <li class="active" id="data-struct-yaml"> <a href="#">yaml </a> </li> <li id="data-struct-json"> <a href="#">json </a> </li> </ul> <ul class="tab-content" id="dc714ddd-2ba9-49fa-8fc1-716aefd58fcf" data-name="data-struct"> <li class="active"> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">whatsup"</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">hi"</span>
-</code></pre></div></div> </li> <li> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"hello"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"whatsup"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div> </li> </ul> <h2 id="tabs-for-something-else">Tabs for something else</h2> <ul id="something-else" class="tab" data-tab="fc3e96d5-dc91-4fea-b306-5323a9a8ea56" data-name="something-else"> <li class="active" id="something-else-text"> <a href="#">text </a> </li> <li id="something-else-quote"> <a href="#">quote </a> </li> <li id="something-else-list"> <a href="#">list </a> </li> </ul> <ul class="tab-content" id="fc3e96d5-dc91-4fea-b306-5323a9a8ea56" data-name="something-else"> <li class="active"> <p>Regular text</p> </li> <li> <blockquote> <p>A quote</p> </blockquote> </li> <li> <p>Hipster list</p> <ul> <li>brunch</li> <li>fixie</li> <li>raybans</li> <li>messenger bag</li> </ul> </li> </ul>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included tabs in a post could look like]]></summary></entry><entry><title type="html">a post with typograms</title><link href="https://ahranah.github.io/blog/2024/typograms/" rel="alternate" type="text/html" title="a post with typograms"/><published>2024-04-29T23:36:10+00:00</published><updated>2024-04-29T23:36:10+00:00</updated><id>https://ahranah.github.io/blog/2024/typograms</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/typograms/"><![CDATA[<p>This is an example post with some <a href="https://github.com/google/typograms/">typograms</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
-</span><span class="sb">+----+
-|    |---&gt; My first diagram!
-+----+</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-typograms">+----+
-|    |---&gt; My first diagram!
-+----+
-</code></pre> <p>Another example:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
-</span><span class="sb">.------------------------.
-|.----------------------.|
-||"https://example.com" ||
-|'----------------------'|
-| ______________________ |
-||                      ||
-||   Welcome!           ||
-||                      ||
-||                      ||
-||  .----------------.  ||
-||  | username       |  ||
-||  '----------------'  ||
-||  .----------------.  ||
-||  |"*******"       |  ||
-||  '----------------'  ||
-||                      ||
-||  .----------------.  ||
-||  |   "Sign-up"    |  ||
-||  '----------------'  ||
-||                      ||
-|+----------------------+|
-.------------------------.</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>which generates:</p> <pre><code class="language-typograms">.------------------------.
-|.----------------------.|
-||"https://example.com" ||
-|'----------------------'|
-| ______________________ |
-||                      ||
-||   Welcome!           ||
-||                      ||
-||                      ||
-||  .----------------.  ||
-||  | username       |  ||
-||  '----------------'  ||
-||  .----------------.  ||
-||  |"*******"       |  ||
-||  '----------------'  ||
-||                      ||
-||  .----------------.  ||
-||  |   "Sign-up"    |  ||
-||  '----------------'  ||
-||                      ||
-|+----------------------+|
-.------------------------.
-</code></pre> <p>For more examples, check out the <a href="https://google.github.io/typograms/#examples">typograms documentation</a>.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="diagrams"/><summary type="html"><![CDATA[this is what included typograms code could look like]]></summary></entry><entry><title type="html">a post that can be cited</title><link href="https://ahranah.github.io/blog/2024/post-citation/" rel="alternate" type="text/html" title="a post that can be cited"/><published>2024-04-28T15:06:00+00:00</published><updated>2024-04-28T15:06:00+00:00</updated><id>https://ahranah.github.io/blog/2024/post-citation</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/post-citation/"><![CDATA[<p>This is an example post that can be cited. The content of the post ends here, while the citation information is automatically provided below. The only thing needed is for you to set the <code class="language-plaintext highlighter-rouge">citation</code> key in the front matter to <code class="language-plaintext highlighter-rouge">true</code>.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="citation"/><summary type="html"><![CDATA[this is what a post that can be cited looks like]]></summary></entry><entry><title type="html">a post with pseudo code</title><link href="https://ahranah.github.io/blog/2024/pseudocode/" rel="alternate" type="text/html" title="a post with pseudo code"/><published>2024-04-15T00:01:00+00:00</published><updated>2024-04-15T00:01:00+00:00</updated><id>https://ahranah.github.io/blog/2024/pseudocode</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/pseudocode/"><![CDATA[<p>This is an example post with some pseudo code rendered by <a href="https://github.com/SaswatPadhi/pseudocode.js">pseudocode</a>. The example presented here is the same as the one in the <a href="https://saswat.padhi.me/pseudocode.js/">pseudocode.js</a> documentation, with only one simple but important change: everytime you would use <code class="language-plaintext highlighter-rouge">$</code>, you should use <code class="language-plaintext highlighter-rouge">$$</code> instead. Also, note that the <code class="language-plaintext highlighter-rouge">pseudocode</code> key in the front matter is set to <code class="language-plaintext highlighter-rouge">true</code> to enable the rendering of pseudo code. As an example, using this code:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">pseudocode
-</span><span class="sb">% This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-\begin{algorithm}
-\caption{Quicksort}
-\begin{algorithmic}
-\PROCEDURE{Quicksort}{$$A, p, r$$}
-    \IF{$$p &lt; r$$}
-        \STATE $$q = $$ \CALL{Partition}{$$A, p, r$$}
-        \STATE \CALL{Quicksort}{$$A, p, q - 1$$}
-        \STATE \CALL{Quicksort}{$$A, q + 1, r$$}
-    \ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Partition}{$$A, p, r$$}
-    \STATE $$x = A[r]$$
-    \STATE $$i = p - 1$$
-    \FOR{$$j = p$$ \TO $$r - 1$$}
-        \IF{$$A[j] &lt; x$$}
-            \STATE $$i = i + 1$$
-            \STATE exchange
-            $$A[i]$$ with $$A[j]$$
-        \ENDIF
-        \STATE exchange $$A[i]$$ with $$A[r]$$
-    \ENDFOR
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Generates:</p> <pre><code class="language-pseudocode">% This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-\begin{algorithm}
-\caption{Quicksort}
-\begin{algorithmic}
-\PROCEDURE{Quicksort}{$$A, p, r$$}
-    \IF{$$p &lt; r$$}
-        \STATE $$q = $$ \CALL{Partition}{$$A, p, r$$}
-        \STATE \CALL{Quicksort}{$$A, p, q - 1$$}
-        \STATE \CALL{Quicksort}{$$A, q + 1, r$$}
-    \ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Partition}{$$A, p, r$$}
-    \STATE $$x = A[r]$$
-    \STATE $$i = p - 1$$
-    \FOR{$$j = p$$ \TO $$r - 1$$}
-        \IF{$$A[j] &lt; x$$}
-            \STATE $$i = i + 1$$
-            \STATE exchange
-            $$A[i]$$ with $$A[j]$$
-        \ENDIF
-        \STATE exchange $$A[i]$$ with $$A[r]$$
-    \ENDFOR
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included pseudo code could look like]]></summary></entry><entry><title type="html">a post with code diff</title><link href="https://ahranah.github.io/blog/2024/code-diff/" rel="alternate" type="text/html" title="a post with code diff"/><published>2024-01-27T19:22:00+00:00</published><updated>2024-01-27T19:22:00+00:00</updated><id>https://ahranah.github.io/blog/2024/code-diff</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/code-diff/"><![CDATA[<p>You can display diff code by using the regular markdown syntax:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff
-</span><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")
-</span></code></pre></div></div> <p>But this is difficult to read, specially if you have a large diff. You can use <a href="https://diff2html.xyz/">diff2html</a> to display a more readable version of the diff. For this, just use <code class="language-plaintext highlighter-rouge">diff2html</code> instead of <code class="language-plaintext highlighter-rouge">diff</code> for the code block language:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff2html
-</span><span class="sb">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
---- a/sample.js
-+++ b/sample.js
-@@ -1 +1 @@
--console.log("Hello World!")
-+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>If we use a longer example, for example <a href="https://github.com/rtfpessoa/diff2html/commit/c2c253d3e3f8b8b267f551e659f72b44ca2ac927">this commit from diff2html</a>, it will generate the following output:</p> <pre><code class="language-diff2html">From 2aaae31cc2a37bfff83430c2c914b140bee59b6a Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sun, 9 Oct 2016 16:41:54 +0100
-Subject: [PATCH 1/2] Initial template override support
+        <span class="c1">// 플로이드 워셜로 경로 최솟값 업데이트</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">k</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
 
----
- scripts/hulk.js                    |  4 ++--
- src/diff2html.js                   |  3 +--
- src/file-list-printer.js           | 11 ++++++++---
- src/hoganjs-utils.js               | 29 +++++++++++++++++------------
- src/html-printer.js                |  6 ++++++
- src/line-by-line-printer.js        |  6 +++++-
- src/side-by-side-printer.js        |  6 +++++-
- test/file-list-printer-tests.js    |  2 +-
- test/hogan-cache-tests.js          | 18 +++++++++++++++---
- test/line-by-line-tests.js         |  3 +--
- test/side-by-side-printer-tests.js |  3 +--
- 11 files changed, 62 insertions(+), 29 deletions(-)
+                    <span class="k">if</span><span class="o">(</span><span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">k</span><span class="o">]</span> <span class="o">+</span> <span class="n">dist_dp</span><span class="o">[</span><span class="n">k</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]){</span>
+                        <span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">k</span><span class="o">]</span> <span class="o">+</span> <span class="n">dist_dp</span><span class="o">[</span><span class="n">k</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
 
-diff --git a/scripts/hulk.js b/scripts/hulk.js
-index 5a793c18..a4b1a4d5 100755
---- a/scripts/hulk.js
-+++ b/scripts/hulk.js
-@@ -173,11 +173,11 @@ function namespace(name) {
- // write a template foreach file that matches template extension
- templates = extractFiles(options.argv.remain)
-   .map(function(file) {
--    var openedFile = fs.readFileSync(file, 'utf-8');
-+    var openedFile = fs.readFileSync(file, 'utf-8').trim();
-     var name;
-     if (!openedFile) return;
-     name = namespace(path.basename(file).replace(/\..*$/, ''));
--    openedFile = removeByteOrderMark(openedFile.trim());
-+    openedFile = removeByteOrderMark(openedFile);
-     openedFile = wrap(file, name, openedFile);
-     if (!options.outputdir) return openedFile;
-     fs.writeFileSync(path.join(options.outputdir, name + '.js')
-diff --git a/src/diff2html.js b/src/diff2html.js
-index 21b0119e..64e138f5 100644
---- a/src/diff2html.js
-+++ b/src/diff2html.js
-@@ -7,7 +7,6 @@
+        <span class="c1">// 노드마다 가는 길 카운트하고, </span>
+        <span class="c1">// 최소카운트면, 답 노드 최댓값으로 </span>
+        <span class="kt">int</span> <span class="n">minReachable</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 
- (function() {
-   var diffParser = require('./diff-parser.js').DiffParser;
--  var fileLister = require('./file-list-printer.js').FileListPrinter;
-   var htmlPrinter = require('./html-printer.js').HtmlPrinter;
+            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">dist_dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">&lt;=</span> <span class="n">distanceThreshold</span><span class="o">){</span>
+                    <span class="n">count</span> <span class="o">++;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">&lt;=</span> <span class="n">minReachable</span><span class="o">){</span>
+                <span class="n">minReachable</span> <span class="o">=</span> <span class="n">count</span><span class="o">;</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="n">ans</span><span class="o">;</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div> <ul> <li>초기화할때 Integer.MAX_VALUE 오버플로우나서 오류 → 10001로 수정</li> </ul>]]></content><author><name></name></author><category term="Algorithm"/><category term="Leetcode"/><category term="dp"/><summary type="html"><![CDATA[Find the City With the Smallest Number of Neighbors at a Threshold Distance - LeetCode]]></summary></entry><entry><title type="html">프로그래머스 완전탐색 전력망 둘로 나누기</title><link href="https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%99%84%EC%A0%84%ED%83%90%EC%83%89-%EC%A0%84%EB%A0%A5%EB%A7%9D-%EB%91%98%EB%A1%9C-%EB%82%98%EB%88%84%EA%B8%B0/" rel="alternate" type="text/html" title="프로그래머스 완전탐색 전력망 둘로 나누기"/><published>2025-12-10T15:11:56+00:00</published><updated>2025-12-10T15:11:56+00:00</updated><id>https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%99%84%EC%A0%84%ED%83%90%EC%83%89-%EC%A0%84%EB%A0%A5%EB%A7%9D-%EB%91%98%EB%A1%9C-%EB%82%98%EB%88%84%EA%B8%B0</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%99%84%EC%A0%84%ED%83%90%EC%83%89-%EC%A0%84%EB%A0%A5%EB%A7%9D-%EB%91%98%EB%A1%9C-%EB%82%98%EB%88%84%EA%B8%B0/"><![CDATA[<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
-   function Diff2Html() {
-@@ -43,7 +42,7 @@
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">solution</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">wires</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+        
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">adj</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+        
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span> <span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="o">}</span>
+        
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">wires</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">wires</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">wires</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">a</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">b</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">wires</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">wires</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">wires</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">];</span>
 
-     var fileList = '';
-     if (configOrEmpty.showFiles === true) {
--      fileList = fileLister.generateFileList(diffJson, configOrEmpty);
-+      fileList = htmlPrinter.generateFileListSummary(diffJson, configOrEmpty);
-     }
+            <span class="n">adj</span><span class="o">[</span><span class="n">a</span><span class="o">].</span><span class="na">remove</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">b</span><span class="o">));</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">b</span><span class="o">].</span><span class="na">remove</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
 
-     var diffOutput = '';
-diff --git a/src/file-list-printer.js b/src/file-list-printer.js
-index e408d9b2..1e0a2c61 100644
---- a/src/file-list-printer.js
-+++ b/src/file-list-printer.js
-@@ -8,11 +8,16 @@
- (function() {
-   var printerUtils = require('./printer-utils.js').PrinterUtils;
+            <span class="kt">boolean</span><span class="o">[]</span> <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">adj</span><span class="o">);</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">answer</span><span class="o">,</span> <span class="nc">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">((</span><span class="n">n</span> <span class="o">-</span> <span class="n">count</span><span class="o">)</span> <span class="o">-</span> <span class="n">count</span><span class="o">));</span>
 
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var baseTemplatesPath = 'file-summary';
-   var iconsBaseTemplatesPath = 'icon';
+            <span class="n">adj</span><span class="o">[</span><span class="n">a</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">);</span> <span class="c1">// 복원</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">b</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">a</span><span class="o">);</span> <span class="c1">// 복원</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">dfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">node</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">v</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;[]</span> <span class="n">list</span><span class="o">){</span>
+        <span class="n">v</span><span class="o">[</span><span class="n">node</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="c1">// if(list[node].size()==0) return 0;</span>
+        
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
 
--  function FileListPrinter() {
-+  function FileListPrinter(config) {
-+    this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="nl">i:</span> <span class="n">list</span><span class="o">[</span><span class="n">node</span><span class="o">]){</span>
+            <span class="k">if</span><span class="o">(!</span><span class="n">v</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
+                <span class="n">v</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">v</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div> <ul> <li>DFS로 노드 개수 세는 건 count += dfs(next) 형태로 누적.</li> <li>remove(int index)와 remove(Object o) 중값 제거를 하려면 객체로 감싸야 함.</li> </ul>]]></content><author><name></name></author><category term="Algorithm"/><category term="프로그래머스"/><category term="완전탐색"/><summary type="html"><![CDATA[```java import java.util.*;]]></summary></entry><entry><title type="html">[Java][BOJ 11650] 좌표 (퀵)정렬하기</title><link href="https://github.com/Ahranah/blog/2025/Java-BOJ-11650-%EC%A2%8C%ED%91%9C-%ED%80%B5-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="[Java][BOJ 11650] 좌표 (퀵)정렬하기"/><published>2025-10-08T14:59:38+00:00</published><updated>2025-10-08T14:59:38+00:00</updated><id>https://github.com/Ahranah/blog/2025/Java-BOJ-11650-%EC%A2%8C%ED%91%9C-%ED%80%B5-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/Java-BOJ-11650-%EC%A2%8C%ED%91%9C-%ED%80%B5-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/"><![CDATA[<h2 id="문제-링크">문제 링크</h2> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-10-08-java-boj-11650-%EC%A2%8C%ED%91%9C-%ED%80%B5-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-10-08-java-boj-11650-%EC%A2%8C%ED%91%9C-%ED%80%B5-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>pivot을 정하면 그 위치는 딱 하나인데, 왜 확률을 곱해서 평균을 내지? 그때그때 n-1번 비교하는 거 아닌가요?</p> <p>-&gt; 그때그때 어떤 pivot이 선택될지 모르기 때문에 모든 경우를 평균적으로 고려해서 E[X] 계산을 하는거다.</p> <p>만약 제일 작은 요소를 pivot으로 선택하면 왼쪽은 크기가 0, 오른쪽은 크기가 n-1이 부분 배열이 생겨서 최악의 시간 복잡도를 가진다.</p> <h2 id="문제-파악">문제 파악</h2> <p>2차원 평면 위의 점 N개를 x좌표, y좌표 순으로 증가하도록 정렬하라.</p> <ul> <li>첫째 줄에 점의 개수 N (1 ≤ N ≤ 100,000)이 주어진다. 둘째 줄부터 N개의 줄에는 i번점의 위치 xi와 yi가 주어진다. (-100,000 ≤ xi, yi ≤ 100,000) 좌표는 항상 정수이고, 위치가 같은 두 점은 없다.</li> </ul> <p>x 순으로 정렬하고, x가 같을 때 y를 비교하도록 한다.</p> <ul> <li>분할 -&gt; 정복(정렬), 같을 때 분할 -&gt; 정복(정렬)</li> </ul> <h2 id="접근-방법">접근 방법</h2> <p><strong>1. mergeSort</strong></p> <p>원래 배열을 둘로 나누고, 나뉜 두 개의 배열을 비교해서 합치면서 정렬한다.</p> <ol> <li>N의 중간값을 기준으로 배열 1, 배열 2로 나누어 받는다.</li> <li>재귀를 이용해 배열 하나에 [x, y]만 남도록 partition한다.</li> <li>merge: 공통 배열에 배열 1과 2의 x값을 비교해 작은 값을 넣는다.</li> <li>만약 같다면 y값을 비교해 더 작은 것이 앞으로 가도록 한다.</li> </ol> <p><strong>2. quickSort</strong></p> <p>하나의 pivot을 무작위로 구해서, pivot 기준으로 좌측은 pivot보다 작게, 우측은 크게해서 배열을 둘로 쪼개고, 쪼개진 배열에서도 위와 같이 pivot을 구해 정렬한다.</p> <ol> <li>pivot을 선정해 pivot의 위치와 pivot 값을 기록한다.</li> <li>i, j = 0 으로 놓는다. i는 for문을 도는값, j는 피벗보다 작은 값이 들어갈 범위의 마지막 인덱스다.</li> <li>for문으로 배열의 [pivot index+1, ] 범위를 pivot item과 비교해 더 작으면 pivot과 swap한다.pivot과 동일하면 y값을 비교한다.pivot보다 작은 값이 들어갈 위치는 이전 마지막 인덱스 j 에  +1 해서 swap한다.</li> <li>pivot이 들어가야할 최종 위치 j와 pivot이 원래 있었던 위치를 swap한다.</li> </ol> <p>최종적으로 왼쪽은 pivot보다 작은 값, 오른쪽은 큰 값이 되었다. 이걸 partition 배열의 개수가 2인 칸까지 Top down한다 생각하면, 전체 sorting이 된다.</p> <h2 id="코드-구현">코드 구현</h2> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
-   FileListPrinter.prototype.generateFileList = function(diffFiles) {
-@@ -38,5 +43,5 @@
-     });
-   };
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 
--  module.exports.FileListPrinter = new FileListPrinter();
-+  module.exports.FileListPrinter = FileListPrinter;
- })();
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 9949e5fa..0dda08d7 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -8,18 +8,19 @@
- (function() {
-   var fs = require('fs');
-   var path = require('path');
--
-   var hogan = require('hogan.js');
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">swap</span><span class="o">(</span><span class="nc">Node</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+        <span class="nc">Node</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+        <span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+    <span class="o">}</span>
 
-   var hoganTemplates = require('./templates/diff2html-templates.js');
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">partition</span><span class="o">(</span><span class="nc">Node</span><span class="o">[]</span> <span class="no">S</span><span class="o">,</span> <span class="kt">int</span> <span class="n">low</span><span class="o">,</span> <span class="kt">int</span> <span class="n">high</span><span class="o">){</span>
+        <span class="nc">Node</span> <span class="n">pivotItem</span> <span class="o">=</span> <span class="no">S</span><span class="o">[</span><span class="n">low</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">low</span><span class="o">;</span>
 
--  var templatesPath = path.resolve(__dirname, 'templates');
-+  var extraTemplates;
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">low</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="no">S</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">x</span> <span class="o">&lt;</span> <span class="n">pivotItem</span><span class="o">.</span><span class="na">x</span> <span class="o">||</span> <span class="o">(</span><span class="no">S</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">x</span> <span class="o">==</span> <span class="n">pivotItem</span><span class="o">.</span><span class="na">x</span> <span class="o">&amp;&amp;</span> <span class="no">S</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">y</span> <span class="o">&lt;</span> <span class="n">pivotItem</span><span class="o">.</span><span class="na">y</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">j</span><span class="o">++;</span>
+                <span class="n">swap</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">swap</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="n">low</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">j</span><span class="o">;</span>
+    <span class="o">}</span>
 
--  function HoganJsUtils() {
-+  function HoganJsUtils(configuration) {
-+    this.config = configuration || {};
-+    extraTemplates = this.config.templates || {};
-   }
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="nc">Node</span><span class="o">[]</span> <span class="no">S</span><span class="o">,</span> <span class="kt">int</span> <span class="n">low</span><span class="o">,</span> <span class="kt">int</span> <span class="n">high</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="o">){</span>
+            <span class="kt">int</span> <span class="n">pivotPoint</span> <span class="o">=</span> <span class="n">partition</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="n">low</span><span class="o">,</span> <span class="n">high</span><span class="o">);</span>
+            <span class="n">quickSort</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="n">low</span><span class="o">,</span> <span class="n">pivotPoint</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="n">quickSort</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="n">pivotPoint</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">high</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 
--  HoganJsUtils.prototype.render = function(namespace, view, params, configuration) {
--    var template = this.template(namespace, view, configuration);
-+  HoganJsUtils.prototype.render = function(namespace, view, params) {
-+    var template = this.template(namespace, view);
-     if (template) {
-       return template.render(params);
-     }
-@@ -27,17 +28,16 @@
-     return null;
-   };
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+        <span class="nc">Node</span><span class="o">[]</span> <span class="no">S</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
 
--  HoganJsUtils.prototype.template = function(namespace, view, configuration) {
--    var config = configuration || {};
-+  HoganJsUtils.prototype.template = function(namespace, view) {
-     var templateKey = this._templateKey(namespace, view);
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">tokens</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">tokens</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+            <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">tokens</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+            <span class="no">S</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+        <span class="o">}</span>
 
--    return this._getTemplate(templateKey, config);
-+    return this._getTemplate(templateKey);
-   };
+        <span class="n">quickSort</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
 
--  HoganJsUtils.prototype._getTemplate = function(templateKey, config) {
-+  HoganJsUtils.prototype._getTemplate = function(templateKey) {
-     var template;
+        <span class="nc">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span> <span class="nl">n:</span> <span class="no">S</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">n</span><span class="o">.</span><span class="na">x</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">n</span><span class="o">.</span><span class="na">y</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+            <span class="c1">// System.out.println(n.x + " " + n.y); // IO마다 호출해서 느림</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">sb</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div> <h2 id="배우게-된-점">배우게 된 점</h2> <p>시간초과났지만 알고리즘이니까 이러케 풀겠따.</p> <p>Java 내장 정렬로 아주 간단히 풀 수도 있다. 이렇게하면 시간초과 안난다.</p> <ul> <li>Arrays.sort()는Dual-Pivot QuickSort로 평균 성능 매우 우수</li> <li>JVM이 최적화 해줌 (입력 정렬 상태에 따라 다른 알고리즘 사용)</li> </ul> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="no">S</span><span class="o">,</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">x</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="na">x</span><span class="o">)</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="na">x</span><span class="o">;</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">y</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="na">y</span><span class="o">;</span>
+        <span class="o">});</span>
+</code></pre></div></div> <h2 id="질문">질문</h2>]]></content><author><name></name></author><category term="Algorithm"/><category term="백준"/><category term="퀵정렬"/><category term="분할정복"/><summary type="html"><![CDATA[문제 링크]]></summary></entry><entry><title type="html">정렬 시간 복잡도는 왜 W(n) = W(n/2) + 1인가</title><link href="https://github.com/Ahranah/blog/2025/%EC%A0%95%EB%A0%AC-%EC%8B%9C%EA%B0%84-%EB%B3%B5%EC%9E%A1%EB%8F%84%EB%8A%94-%EC%99%9C-W-n-W-n-2-1%EC%9D%B8%EA%B0%80/" rel="alternate" type="text/html" title="정렬 시간 복잡도는 왜 W(n) = W(n/2) + 1인가"/><published>2025-10-06T14:36:02+00:00</published><updated>2025-10-06T14:36:02+00:00</updated><id>https://github.com/Ahranah/blog/2025/%EC%A0%95%EB%A0%AC-%EC%8B%9C%EA%B0%84-%EB%B3%B5%EC%9E%A1%EB%8F%84%EB%8A%94-%EC%99%9C-W-n-W-n-2-1%EC%9D%B8%EA%B0%80</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/%EC%A0%95%EB%A0%AC-%EC%8B%9C%EA%B0%84-%EB%B3%B5%EC%9E%A1%EB%8F%84%EB%8A%94-%EC%99%9C-W-n-W-n-2-1%EC%9D%B8%EA%B0%80/"><![CDATA[<p>분할정복에서 파생하는 합병정렬, 퀵정렬 모두 시간복잡도 계산에서 W(n) = W(n/2) + 1를 가정하고 계산한다.</p> <p>분할 정복의 기초, 이진 재귀 탐색은 아래와 같은 구조를 자주 사용한다.</p> <p>배열 S → 반으로 나누고 → 재귀적으로 처리 → 합치기</p> <p>W(n)은 n개의 데이터 중 하나를 찾는 데 걸리는 <strong>단계 수 or 비교 횟수</strong>를 의미한다.</p> <p>배열을 정확히 반씩 쪼갤 수 있을 때 한 번 나누면 2등분이 되고 그 중 절반만 확인하면 되니, 비교 횟수는 1번씩만 증가한다.</p> <p>완벽히 반으로 나눌 수 있을 때, 각 깊이마다 딱 1번의 비교를 하므로, W(n) = W(n/2) + 1</p> <p>이렇게 완벽히 반으로 나눌 수 있는 상황이 2이 거듭제곱(n = 2^k)일 때니, 재귀 깊이는 log₂(n)이 된다.</p> <p>⇒ W(n) = log₂(n) + 1 ∈ Θ(log n)</p>]]></content><author><name></name></author><category term="Algorithm"/><category term="정렬"/><category term="이진재귀"/><summary type="html"><![CDATA[분할정복에서 파생하는 합병정렬, 퀵정렬 모두 시간복잡도 계산에서 W(n) = W(n/2) + 1를 가정하고 계산한다.]]></summary></entry><entry><title type="html">[Servlet] 웹 애플리케이션 기본 구조와 Servlet 라이프사이클</title><link href="https://github.com/Ahranah/blog/2025/Servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-Servlet-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4/" rel="alternate" type="text/html" title="[Servlet] 웹 애플리케이션 기본 구조와 Servlet 라이프사이클"/><published>2025-07-07T13:37:16+00:00</published><updated>2025-07-07T13:37:16+00:00</updated><id>https://github.com/Ahranah/blog/2025/Servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-Servlet-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/Servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-Servlet-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4/"><![CDATA[<h2 id="웹-애플리케이션-개발을-위한-웹-기본-동작-원리를-익혀본다">웹 애플리케이션 개발을 위한 웹 기본 동작 원리를 익혀본다.</h2> <h2 id="1-네트워크-http">1. 네트워크: HTTP</h2> <p>웹은 HTTP라는 프로토콜을 기반으로 브라우저와 서버가 메시지를 주고 받으면서 동작한다.</p> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>브라우저가 HTML을 통해 서버에 요청(request)을 전달하면 서버는 request와 함께 전달된 사용자 정보를 추출해서 요청된 기능을 처리한다. 이때 서버에서 사용자 request를 처리하는 대표적인 자바 기술이 Servlet이다.</p> <ul> <li>서블릿은 Spring MVC에서도 이어지는 개념이니 용어가 익숙해져야 한다.</li> </ul> <p>웹 앱 개발은 TCP 기반의 HTTP를 이해하는 것으로 시작한다. 네트워크 사용할 때 사용하는 통신 규약이므로 웹 프로그래밍 개발을 위해 동작 원리를 익혀야 한다.</p> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_1.png" sizes="95vw"/> <img src="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_1.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>히히 끼워팔기</p> <p><a href="https://ahranah.tistory.com/88">TCP/IP 와 UDP*이것이 자바다(3판)을 보고 작성한 글입니다.IP: Internet ProtocolIP 주소는 네트워크 어댑터(LAN 카드)마다 할당된다.DNS(Domain Name System)Web browser 웹 명령어 ipconfig / ifconfig웹브라우저가 DNS를 거쳐 웹서ahranah.tistory.com</a></p> <p><a href="https://ahranah.tistory.com/58">HTTP Protocol 기초*Node.js 프로그래밍 입문(고경희)를 읽고 작성한 글입니다.  클라이언트는 서버로 자료를 요청하고, 서버는 클라이언트로 자료를 전송하는 방식으로 웹이 동작한다. HTTP requestHTTP response 근데ahranah.tistory.com</a></p> <h2 id="2-서버의-구성-톰캣과-서블릿">2. 서버의 구성: 톰캣과 서블릿</h2> <p>앞서, 서버가 클라이언트의 request를 처리하는 대표적인 기술이 서블릿이라 했다.</p> <p>서블릿은 JSP와 함께 동적 콘텐츠를 작성할 수 있는 자바 기술이다. 서버를 구성하는 부품은 자바로 구현 가능한 것으로 이뤄지는데, 자바로 구현한 웹 애플리케이션은 기본적으로 서버 사이의 이식성이 보장되기 때문이다.</p> <p>톰캣 서버를 기반으로 개발된 웹 앱은 제우스나 웹로직 같은 다른 서버에서 실행해도 동일하게 실행된다. 이렇게 서버 사이의 이식성을 보장하기 위해서 기본적으로 웹앱이 모든 서버가 인식하는 정형화된 디렉터리 구조를 유지해야만 한다.</p> <ul> <li>서버 사이 이식성을 보장하기 위해 자바로 구현한 Servlet, Tomcat 서버를 이용한다.</li> <li>서버 사이 이식성을 보장하기 위해 정형화된 디렉토리 구조를 유지한다.</li> </ul> <h3 id="2-1-서버-동작의-개요">2-1. 서버 동작의 개요</h3> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_2.png" sizes="95vw"/> <img src="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_2.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>웹 애플리케이션 컨테이너(예: Tomcat, Jetty)는 서블릿이 안정적으로 실행되기 위한 공통 환경을 제공한다. 구체적으로는 HTTP 요청·응답을 관리하고, 서블릿의 생성·초기화·소멸(lifecycle)을 제어하며, 보안·트랜잭션 같은 엔터프라이즈 기능을 대신 처리한다. 개발자는 이 복잡한 기반 구조를 직접 구현할 필요 없이 비즈니스 로직에만 집중할 수 있다.</p> <ul> <li>쇼핑몰 장바구니 할인에서 아래와 같은 내용이 비즈니스 로직이다.사용자가 장바구니에 담은 상품들의 가격과 수량을 합산해총 주문금액을 계산할인 적용 기준 검사 - 계산된 금액이 “10만원 이상”이면10% 할인을 적용</li> </ul> <p>서블릿을 여러 개로 나누는 이유는 관심사의 분리(Separation of Concerns)와 재사용성 때문이다. 예를 들어 “로그인 처리”, “게시판 목록 조회”, “파일 업로드” 같은 기능을 각각의 서블릿 클래스로 구현하면 유지보수가 쉽고, URL 맵핑을 통해 기능별로 요청을 간편히 분배할 수 있다. 각 서블릿은 자신에게 맡겨진 책임만 수행하기 때문에 테스트·디버깅도 명확해진다.</p> <p>컨테이너는 실행 환경을 표준화하고, 서블릿 분리는 모듈화를, 멀티스레드는 성능 최적화</p> <ol> <li>클라이언트 요청웹 브라우저가 특정 URL로 HTTP 요청을 보냄요청은 먼저 웹 서버(예: Apache httpd, Nginx)로 들어감</li> <li>서블릿 컨테이너 전달웹 서버는 요청을 서블릿 컨테이너(예: Tomcat)의 접속 포트로 포워딩컨테이너는 요청 URL에 매핑된Servlet클래스를 찾음</li> <li>서블릿(Servlet) 실행doGet()/doPost()메소드에서 비즈니스 로직 수행필요 시 DB와 연동하여 데이터 조회·가공조회한 결과를request.setAttribute(“data”, 값)등에 담아 JSP로 전달</li> <li>JSP 호출 및 화면 결합서블릿이RequestDispatcher.forward(“/view.jsp”)로 JSP 실행 지시JSP는 HTML 템플릿 코드에 서블릿에서 설정한request데이터를 삽입하여 동적 페이지(HTML) 생성</li> <li>응답 반환생성된 HTML은 다시 서블릿 컨테이너 → 웹 서버 → 클라이언트 순으로 전송브라우저가 수신한 HTML을 렌더링</li> </ol> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_3.png" sizes="95vw"/> <img src="/assets/img/posts/2025-07-07-servlet-%EC%9B%B9-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-servle/img_3.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>멀티스레드 지원하여 한 대의 서버 프로세스에서 수십, 수백 개의 요청을 동시에 처리할 수 있다. 쓰레드 풀에서 각각의 요청을 병렬 처리하여 다수 요청에서 응답 지연을 줄인다. 단, 스레드 간 공유 자우너에 대한 동기화 처리가 필요해 코드가 복잡해지고, 교착 상태나 race condition을 주의해야 한다.</p> <ul> <li>단일 스레드: 순차적 처리 → 구현이 단순하고 디버깅이 쉬우나, 동시 접속이 늘어나면 대기 시간 증가</li> <li>멀티스레드: 병렬 처리 → 처리량이 높고 확장성이 좋으나, 동시성 제어와 컨텍스트 스위칭 비용을 고려해야 함</li> </ul> <p>*채쌤의 Servlet&amp;JSP 프로그래밍 핵심(채큐태)를 읽고 작성한 글입니다.</p>]]></content><author><name></name></author><category term="KB_ITs_Your_Life_6th"/><summary type="html"><![CDATA[웹 애플리케이션 개발을 위한 웹 기본 동작 원리를 익혀본다.]]></summary></entry><entry><title type="html">2025 제 10회 빅데이터분석기사 실기 합격 후기</title><link href="https://github.com/Ahranah/blog/2025/2025-%EC%A0%9C-10%ED%9A%8C-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%95%A9%EA%B2%A9-%ED%9B%84%EA%B8%B0/" rel="alternate" type="text/html" title="2025 제 10회 빅데이터분석기사 실기 합격 후기"/><published>2025-07-04T08:57:08+00:00</published><updated>2025-07-04T08:57:08+00:00</updated><id>https://github.com/Ahranah/blog/2025/2025-%EC%A0%9C-10%ED%9A%8C-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%95%A9%EA%B2%A9-%ED%9B%84%EA%B8%B0</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/2025-%EC%A0%9C-10%ED%9A%8C-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%95%A9%EA%B2%A9-%ED%9B%84%EA%B8%B0/"><![CDATA[<figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-07-04-2025-%EC%A0%9C-10%ED%9A%8C-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%95%A9%EA%B2%A9-%ED%9B%84%EA%B8%B0/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-07-04-2025-%EC%A0%9C-10%ED%9A%8C-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%95%A9%EA%B2%A9-%ED%9B%84%EA%B8%B0/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>[해명] 3유형 안버리고 공부했는데.. 시험장에서 ols 옆에 .fit() 붙이는거를 help, dir로 못 찾아서 아예 백지로 냈다.</p> <h2 id="빅데이터-분석기사-실기란">빅데이터 분석기사 실기란</h2> <p>실기는 기출에 나오는 유형별 라이브러리 모델 하나씩 외워서 쓰면 되는 시험이다.</p> <p>돈 안쓰고 공부하려고 보면 어떤 시험인지, 어느 정도 공부해야 하는지 감 잡기가 어려워 시간 낭비하기 쉽다. 나도 자격증 딸 때 강의에 돈 쓰는 거 아까워하는 편이라 무료 자료, 강의를 많이 찾아봤다. 그런데 데이터 분석이라는 한 분야를 시험으로 본다는 게,, 엄청난 공부량이 필요할 것 같았다. 겁 먹지 않아도 된다. 아래 포스트에 정리된 내용만 봐도 충분히 통과할 수 있다.</p> <p>어떤 시험이고, 어떻게 준비하고, 어떤 라이브러리, 함수를 쓰는지 잘 정리된 블로그다.</p> <p><a href="https://velog.io/@imymemineyay/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%EC%A4%80%EB%B9%84-%EC%8B%A4%EA%B8%B0-%EC%A0%95%EB%B3%B4-%EB%B0%8F-7%EC%9D%BC-%EA%B3%B5%EB%B6%80-%EA%B3%84%ED%9A%8D">빅데이터분석기사 실기 준비① - 실기 정보 및 7일 공부 계획빅데이터분석기사 실기 정보와 공부법 및 참고 자료 공유합니다.velog.io</a></p> <h2 id="공부-방법">공부 방법</h2> <p>5일동안 데이터 마님 전처리, 2유형, 3유형 + 8회 기출 풀었다. 파이썬이 주 언어가 아니어서 감잡으려고 1유형 전처리 부분을 2회독했다.</p> <p><a href="https://www.datamanim.com/dataset/99_pandas/pandasMain.html#google_vignette">판다스 연습 튜토리얼 — DataManim판다스 연습 튜토리얼 10회 빅분기 실기 대비 강의, 블로그만으로는 도저히 안되겠다ㅠ 하시는분들에게 추천합니다. 아 제발 광고 한번씩만 눌러주세요 ㅠㅠ 두번은 더 좋구요 오픈톡방 (pw: dbscawww.datamanim.com</a></p> <h4 id="1-유형-데이터-탐색-전처리">1 유형: 데이터 탐색, 전처리</h4> <p>1유형 데이터 전처리 부분은 2, 3 유형에서도 활용되니까 확실히 잡아놓는 것이 좋을 것 같다.</p> <p>전처리 풀면서 오답노트 했던 노션이다. 저번 9회 실기에서 그룹핑 해체, 분열(unstack melt)가 어려웠다는 후기글이 있었다.</p> <p>이번 10회 실기는 시간데이터 연-월 단위 그룹핑이 나왔다. pivot은 안나왔다.</p> <table> <tbody> <tr> <td>[Preprocessing</td> <td>Notion1. Getting &amp; Knowing Datawww.notion.so](https://www.notion.so/ahranah/Preprocessing-20e1f17a603780739b66c236ec119e94?source=copy_link)</td> </tr> </tbody> </table> <h4 id="2-유형-모델링">2 유형: 모델링</h4> <p>2유형은 데이터 분석 전 과정을 구현하는 유형이다. 10번 정도만 클론 코딩해도 흐름은 외우니까 크게 겁먹지 않아도 된다.</p> <p>분류, 회귀 문제 유형별로 모델 하나만 쓰겠다는 생각으로 공부했다.</p> <p>모델로 RandomForest 계열을 쓰면 인코딩에서 자유로워지고, 하이퍼 파라미터 튜닝도 (test size 제외) 크게 성능에 영향이 없다.</p> <p>이번 시험에서는 결측치, 전처리없는 회귀문제가 나왔고 rmse로 평가하는 건데 모델 하나밖에 몰라서 인코딩으로 차이를 뒀다.</p> <p>그래서 여유가 된다면 모델 두 개 정도는 외워서 평가 지표로 모델을 선택하는 것도 괜찮을 것 같다.</p> <table> <tbody> <tr> <td>[제 2유형</td> <td>NotionGoogle Colabwww.notion.so](https://www.notion.so/ahranah/2-2161f17a6037803a9356cfcc9354245f?source=copy_link)</td> </tr> </tbody> </table> <h4 id="3-유형-검정">3 유형: 검정</h4> <p>어떻게 공부해야 하는지 가장 헤맸던 유형이다. 결론부터 말하면 9회 기출이랑 거의 똑같이 나왔다.</p> <p>3유형은 무료 해설 강의도 거의 없고, 기출 자료도 거의 없어서 존재하는 유튜브 강의를 최대한 활용했다.</p> <ol> <li> <p><a href="https://www.youtube.com/watch?v=wvvs7S9On0w">https://www.youtube.com/watch?v=wvvs7S9On0w</a></p> </li> <li> <p><a href="https://www.youtube.com/watch?v=9mcnKbCbchk">https://www.youtube.com/watch?v=9mcnKbCbchk</a></p> </li> </ol> <p>위 두 영상을 보면서 감을 잡아갔다.</p> <p><a href="https://ourjune.tistory.com/53">3. https://ourjune.tistory.com/53</a></p> <p><a href="https://ourjune.tistory.com/53">[빅분기] 빅데이터 분석기사 3유형 벼락치기 요약 정리모듈 및 함수 불러오기scipy.stats T-test(단일표본 ttest_1samp, 독립표본 ttest_ind, 대응표본 ttest_rel), 카이제곱검정(chi2_contingency 독립성검정, chisquare 적합도 검정), ANOVA(다원분산분석은 statsmodel이 더 좋ourjune.tistory.com</a> 이 분 블로그가 정말 도움이 많이 됐다. 흐름을 보면 메타코드 강의를 듣고 정리하신 것 같다. 양 추리고 흐름 잡기에 좋다.</p> <p>근데 최근에 난이도가 높아졌대서 안그래도 검정 파트가 양이 많은데 공부를 다 할 수 있을지 불안했다. 이번 시험이 9회랑 비슷하게 나온걸로 봐서 F검정까지만 봐도 되지 않을까 싶다. 특히나 시간이 없다면 statsmodel.api logit, ols 사용법만 제대로 외우면 문제 하나는 맞힐 수 있다.</p> <p>나는 시간상 전체 한 번 훑고 가는 게 목표였다. 마지막에 formula 공부하면서 statsmodel 이랑 statsmodel.api 사용법이 짬뽕돼서 아예 못 풀었다. 시험장에서 마지막까지 help, dir로 계속 찾았는데도 ols.fit() 이건 안나오더라(심한욕)</p> <p>모델을 아예 못 사용했으니 시험 떨어질 수도 있겠다는 생각에 넘 우울했다.. 운이 좋게 1, 2유형을 다 맞아서 붙었다. 다행이다.</p> <table> <tbody> <tr> <td>[제 3유형</td> <td>Notion메타코드M 빅데이터분석기사 실기 3유형 문제풀이 (2024 버전) - [가설검정, 모집단, 정규성]www.notion.so](https://www.notion.so/ahranah/3-2161f17a603780deaed0e4ebd32ce4f1?source=copy_link)</td> </tr> </tbody> </table> <p>####</p> <h2 id="시험-환경으로-모의고사-한-번-풀어보기">시험 환경으로 모의고사 한 번 풀어보기</h2> <p>나는 주어진 시간이 그리 많지 않았기 때문에 시험 환경에서 문제 푸는 연습을 못하고 갔다.</p> <p>VSCode로 하면 자동완성 기능이 있지만 시험 환경에는 없다. print()로만 결과를 출력할 수 있고, cell도 나누어져 있지 않다.</p> <p>내 생각엔 이번엔 정말 운이 좋았던거고 시험 환경에 대한 연습이 없으면 떨어질 수도 있을 것 같다.</p> <p>특히, help, dir로 각 라이브러리 사용법 어떻게 도출하는지 제대로 확인해보는 연습이 필요하다. 3유형의 경우엔 잘 안 찾아졌기 때문이다. 미리 해보면 차라리 제대로 외우고 가겠다는 마음이라도 생길 수 있다.</p>]]></content><author><name></name></author><category term="대내외활동"/><category term="자격증"/><category term="빅데이터분석기사"/><category term="빅분기"/><category term="빅데이터분석기사실기"/><category term="빅분기실기"/><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">[Java][BOJ 19941] 햄버거 분배</title><link href="https://github.com/Ahranah/blog/2025/Java-BOJ-19941-%ED%96%84%EB%B2%84%EA%B1%B0-%EB%B6%84%EB%B0%B0/" rel="alternate" type="text/html" title="[Java][BOJ 19941] 햄버거 분배"/><published>2025-06-26T04:42:50+00:00</published><updated>2025-06-26T04:42:50+00:00</updated><id>https://github.com/Ahranah/blog/2025/Java-BOJ-19941-%ED%96%84%EB%B2%84%EA%B1%B0-%EB%B6%84%EB%B0%B0</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/Java-BOJ-19941-%ED%96%84%EB%B2%84%EA%B1%B0-%EB%B6%84%EB%B0%B0/"><![CDATA[<h2 id="문제-링크">문제 링크</h2> <h2 id="문제-파악">문제 파악</h2> <p>식탁의 길이 N, 햄버거를 선택할 수 있는 거리 K, 사람과 햄버거의 위치가 주어졌을 때 햄버거를 먹을 수 있는 사람의 최대 수를 구하는 프로그램을 작성하시오. 첫 줄에 N과 K가 주어지고 다음 줄에 사람과 햄버거의 위치가 문자 P(사람)과 H(햄버거)로 주어진다.</p> <ul> <li>1 &lt;= N &lt;= 20000</li> <li>1 &lt;= K &lt;= 10</li> </ul> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">20</span> <span class="mi">1</span>
+<span class="no">HHPHPPHHPPHPPPHPHPHP</span> <span class="c1">//8</span>
 
--    if (!config.noCache) {
-+    if (!this.config.noCache) {
-       template = this._readFromCache(templateKey);
-     }
+<span class="mi">20</span> <span class="mi">2</span>
+<span class="no">HHHHHPPPPPHPHPHPHHHP</span> <span class="c1">//7</span>
+</code></pre></div></div> <h2 id="접근-방법">접근 방법</h2> <p>햄버거 사람 햄버거 사람 햄버거 사람 햄버거 햄버거 사람 사람 햄버거 사람</p> <p><strong>1</strong> <strong>2</strong> <strong>3</strong> <strong>4</strong> <strong>5</strong> <strong>6</strong> <strong>7</strong> <strong>8</strong> <strong>9</strong> <strong>10</strong> <strong>11</strong> <strong>12</strong></p> <p>K = 2인 경우에는 6명 모두가 햄버거를 먹을 수 있다.</p> <ul> <li>2번 위치에 있는 사람: 1번 위치에 있는 햄버거</li> <li>4번 위치에 있는 사람: 3번 위치에 있는 햄버거</li> <li>6번 위치에 있는 사람: 5번 위치에 있는 햄버거</li> <li>9번 위치에 있는 사람: 7번 위치에 있는 햄버거</li> <li>10번 위치에 있는 사람: 8번 위치에 있는 햄버거</li> <li>12번 위치에 있는 사람: 11번 위치에 있는 햄버거</li> </ul> <p>처음에 그리디로 생각했는데 9번의 경우 가장 가까운 값으로 먹으면 10번이 11번 햄버거를 먹어서 12번이 아무것도 못먹게 된다.</p> <p>그래서 백트래킹인건가? dfs로 각 P마다 1-K번 모두 점프 시도해보았다. (근데 가장 가까운 값을 먹는게 아니라 가장 작은 인덱스 값부터 먹는 그리디였으면 가능했다. )</p> <ul> <li>처음에는 한 칸 점프, 만약 K가 1보다 크면, 2칸 점프해서 dfs… K칸까지 점프하는 dfs 실행 후 Math.max로 출력</li> </ul> <ol> <li>String 에서 P를 찾아 이동 가능한 거리를 for문으로 돌면서 먹을 수 있는 지 확인한다.</li> <li>먹을 수 있으면 햄버거 eaten 표시와사람별로 먹었는지를 나타내는 pEaten를 True 표시한다.</li> <li>먹을 수 없거나 H면 idx+1해서 다음 dfs 실행한다.</li> <li>인덱스가 String 길이가 되면 종료</li> </ol> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">static</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">line</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">eaten</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">pEaten</span><span class="o">;</span>
+    
+<span class="n">dfs</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">);</span>
 
-@@ -53,6 +53,7 @@
+<span class="n">dfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">idx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cnt</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">idx</span> <span class="o">&gt;=</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">maxCnt</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">maxCnt</span><span class="o">,</span> <span class="n">cnt</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
 
-     try {
-       if (fs.readFileSync) {
-+        var templatesPath = path.resolve(__dirname, 'templates');
-         var templatePath = path.join(templatesPath, templateKey);
-         var templateContent = fs.readFileSync(templatePath + '.mustache', 'utf8');
-         template = hogan.compile(templateContent);
-@@ -66,12 +67,16 @@
-   };
+        <span class="k">if</span> <span class="o">(</span><span class="n">line</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">==</span> <span class="sc">'P'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">boolean</span> <span class="n">matched</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">jump</span> <span class="o">=</span> <span class="o">-</span><span class="no">K</span><span class="o">;</span> <span class="n">jump</span> <span class="o">&lt;=</span> <span class="no">K</span><span class="o">;</span> <span class="n">jump</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">target</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">jump</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">target</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">line</span><span class="o">[</span><span class="n">target</span><span class="o">]</span> <span class="o">==</span> <span class="sc">'H'</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">eaten</span><span class="o">[</span><span class="n">target</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="c1">// 먹기</span>
+                    <span class="n">eaten</span><span class="o">[</span><span class="n">target</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">dfs</span><span class="o">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">cnt</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+                    <span class="n">eaten</span><span class="o">[</span><span class="n">target</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="n">matched</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">matched</span><span class="o">)</span> <span class="n">dfs</span><span class="o">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">cnt</span><span class="o">);</span> <span class="c1">// 못 먹고 넘어감</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">dfs</span><span class="o">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">cnt</span><span class="o">);</span> <span class="c1">// 사람이 아닌 경우 그냥 넘어감</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div> <p>는 시간초과가 난다. 백트래킹이고. 그리디도 시간복잡도는 O(20000*20)로 똑같을 것 같은데 아니었다.</p> <h2 id="코드-구현">코드 구현</h2> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
-   HoganJsUtils.prototype._readFromCache = function(templateKey) {
--    return hoganTemplates[templateKey];
-+    return extraTemplates[templateKey] || hoganTemplates[templateKey];
-   };
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="no">K</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
 
-   HoganJsUtils.prototype._templateKey = function(namespace, view) {
-     return namespace + '-' + view;
-   };
+        <span class="kt">char</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+        <span class="kt">boolean</span><span class="o">[]</span> <span class="n">eaten</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
 
--  module.exports.HoganJsUtils = new HoganJsUtils();
-+  HoganJsUtils.prototype.compile = function(templateStr) {
-+    return hogan.compile(templateStr);
-+  };
-+
-+  module.exports.HoganJsUtils = HoganJsUtils;
- })();
-diff --git a/src/html-printer.js b/src/html-printer.js
-index 585d5b66..13f83047 100644
---- a/src/html-printer.js
-+++ b/src/html-printer.js
-@@ -8,6 +8,7 @@
- (function() {
-   var LineByLinePrinter = require('./line-by-line-printer.js').LineByLinePrinter;
-   var SideBySidePrinter = require('./side-by-side-printer.js').SideBySidePrinter;
-+  var FileListPrinter = require('./file-list-printer.js').FileListPrinter;
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 
-   function HtmlPrinter() {
-   }
-@@ -22,5 +23,10 @@
-     return sideBySidePrinter.generateSideBySideJsonHtml(diffFiles);
-   };
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="sc">'P'</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 앞뒤로 k칸 범위 탐색</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="no">K</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">+</span> <span class="no">K</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="no">N</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="sc">'H'</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">eaten</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">{</span>
+                        <span class="n">eaten</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                        <span class="n">count</span><span class="o">++;</span>
+                        <span class="k">break</span><span class="o">;</span> <span class="c1">// 한 사람은 햄버거 하나만 먹음</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
 
-+  HtmlPrinter.prototype.generateFileListSummary = function(diffJson, config) {
-+    var fileListPrinter = new FileListPrinter(config);
-+    return fileListPrinter.generateFileList(diffJson);
-+  };
-+
-   module.exports.HtmlPrinter = new HtmlPrinter();
- })();
-diff --git a/src/line-by-line-printer.js b/src/line-by-line-printer.js
-index b07eb53c..d230bedd 100644
---- a/src/line-by-line-printer.js
-+++ b/src/line-by-line-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div> <h2 id="배우게-된-점">배우게 된 점</h2> <p>백트래킹은 시간복잡도가 더 작을 줄 알았는데.. 아니었다. 20개의 문자에 대해 K개의 선택을 하니까 20^K로 계산해야 한다.</p> <h2 id="질문">질문</h2>]]></content><author><name></name></author><category term="Algorithm"/><category term="백준"/><summary type="html"><![CDATA[문제 링크]]></summary></entry><entry><title type="html">[Java][BOJ 17484] 진우의 달 여행(small)</title><link href="https://github.com/Ahranah/blog/2025/Java-BOJ-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/" rel="alternate" type="text/html" title="[Java][BOJ 17484] 진우의 달 여행(small)"/><published>2025-06-19T02:04:13+00:00</published><updated>2025-06-19T02:04:13+00:00</updated><id>https://github.com/Ahranah/blog/2025/Java-BOJ-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small</id><content type="html" xml:base="https://github.com/Ahranah/blog/2025/Java-BOJ-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/"><![CDATA[<h2 id="문제-링크">문제 링크</h2> <h2 id="문제-파악">문제 파악</h2> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-06-19-java-boj-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/img.png" sizes="95vw"/> <img src="/assets/img/posts/2025-06-19-java-boj-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/img.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/posts/2025-06-19-java-boj-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/img_1.png" sizes="95vw"/> <img src="/assets/img/posts/2025-06-19-java-boj-17484-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-small/img_1.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <p>지구와 달 사이 공간의 행렬 N x M (2≤ N, M ≤ 6)에서 달 여행에 필요한 최소 연료 값을 출력하라</p> <ul> <li>같은 방향으로 두 번 이동할 수 없다.</li> </ul> <h2 id="접근-방법">접근 방법</h2> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span><span class="o">.</span> <span class="n">dfs에서</span> <span class="n">y가</span> <span class="mi">7</span><span class="o">(</span><span class="n">높이</span><span class="o">)</span><span class="n">이되면</span> <span class="n">pq에</span> <span class="n">넣어</span> <span class="n">가장</span> <span class="n">적은</span> <span class="n">비용을</span> <span class="n">출력한다</span><span class="o">.</span>
+<span class="mi">2</span><span class="o">.</span> <span class="n">dp는</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="n">i</span> <span class="n">행</span> <span class="n">j</span> <span class="n">열이</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span> <span class="n">or</span> <span class="n">j</span> <span class="n">or</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span>
+</code></pre></div></div> <ol> <li> <p>같은 방향인지 확인하기 위해 dir를 노드에 추가하고, 이전과 같은 dir면 멈추는 조건을 추가해야 한다.</p> </li> <li> <p>재귀에서 탈출했을 때 visited false 처리</p> </li> </ol> <ul> <li>재귀는 stack처럼 동작하기 때문에 달을 찍고 return하면 두번째 뒤 점에서 다시 달까지 시도</li> </ul> <h2 id="코드-구현">코드 구현</h2> <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'line-by-line';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -19,6 +20,9 @@
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">v</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">dir</span><span class="o">;</span> <span class="c1">// 0, 1, 2 (좌하, 하, 우하)</span>
 
-   function LineByLinePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dir</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">dir</span> <span class="o">=</span> <span class="n">dir</span><span class="o">;</span>
+        <span class="o">}</span>
 
-   LineByLinePrinter.prototype.makeFileDiffHtml = function(file, diffs) {
-diff --git a/src/side-by-side-printer.js b/src/side-by-side-printer.js
-index bbf1dc8d..5e3033b3 100644
---- a/src/side-by-side-printer.js
-+++ b/src/side-by-side-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
+    <span class="o">}</span>
 
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'side-by-side';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -26,6 +27,9 @@
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">v</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">PriorityQueue</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">pq</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">coord</span><span class="o">;</span>
 
-   function SideBySidePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
 
-   SideBySidePrinter.prototype.makeDiffHtml = function(file, diffs) {
-diff --git a/test/file-list-printer-tests.js b/test/file-list-printer-tests.js
-index a502a46f..60ea3208 100644
---- a/test/file-list-printer-tests.js
-+++ b/test/file-list-printer-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
+        <span class="n">coord</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">m</span><span class="o">];</span>
 
--var fileListPrinter = require('../src/file-list-printer.js').FileListPrinter;
-+var fileListPrinter = new (require('../src/file-list-printer.js').FileListPrinter)();
+        <span class="c1">// 행렬 생성</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+                <span class="n">coord</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
 
- describe('FileListPrinter', function() {
-   describe('generateFileList', function() {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 190bf6f8..3bb754ac 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
+        <span class="c1">// 달에 도달한 노드 저장소</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PriorityQueue</span><span class="o">&lt;&gt;((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">);</span>
 
--var HoganJsUtils = require('../src/hoganjs-utils.js').HoganJsUtils;
-+var HoganJsUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)();
- var diffParser = require('../src/diff-parser.js').DiffParser;
+        <span class="c1">// 첫 번째 행 모든 열에서 출발점 생성 후 dfs</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">coord</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">i</span><span class="o">];</span>
 
- describe('HoganJsUtils', function() {
-@@ -21,16 +21,28 @@ describe('HoganJsUtils', function() {
-       });
-       assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should render view without cache', function() {
-       var result = HoganJsUtils.render('generic', 'empty-diff', {
-         contentClass: 'd2h-code-line',
-         diffParser: diffParser
-       }, {noCache: true});
--      assert.equal(emptyDiffHtml + '\n', result);
-+      assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should return null if template is missing', function() {
--      var result = HoganJsUtils.render('generic', 'missing-template', {}, {noCache: true});
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)({noCache: true});
-+      var result = hoganUtils.render('generic', 'missing-template', {});
-       assert.equal(null, result);
-     });
-+
-+    it('should allow templates to be overridden', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+
-+      var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-diff --git a/test/line-by-line-tests.js b/test/line-by-line-tests.js
-index 1cd92073..8869b3df 100644
---- a/test/line-by-line-tests.js
-+++ b/test/line-by-line-tests.js
-@@ -14,7 +14,7 @@ describe('LineByLinePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
+            <span class="n">v</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">m</span><span class="o">];</span>
 
-       assert.equal(expected, fileHtml);
-     });
-@@ -422,7 +422,6 @@ describe('LineByLinePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                &lt;/tbody&gt;\n' +
-         '            &lt;/table&gt;\n' +
-         '        &lt;/div&gt;\n' +
-diff --git a/test/side-by-side-printer-tests.js b/test/side-by-side-printer-tests.js
-index 76625f8e..771daaa5 100644
---- a/test/side-by-side-printer-tests.js
-+++ b/test/side-by-side-printer-tests.js
-@@ -14,7 +14,7 @@ describe('SideBySidePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
+            <span class="n">v</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">dfs</span><span class="o">(</span><span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span>  <span class="n">value</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span> <span class="c1">// 첫 direction은 겹치지 않도록 [0, 2]가 아닌 값</span>
+        <span class="o">}</span>
 
-       assert.equal(expectedRight, fileHtml.right);
-       assert.equal(expectedLeft, fileHtml.left);
-@@ -324,7 +324,6 @@ describe('SideBySidePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                    &lt;/tbody&gt;\n' +
-         '                &lt;/table&gt;\n' +
-         '            &lt;/div&gt;\n' +
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">pq</span><span class="o">.</span><span class="na">peek</span><span class="o">());</span>
+    <span class="o">}</span>
 
-From f3cadb96677d0eb82fc2752dc3ffbf35ca9b5bdb Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sat, 15 Oct 2016 13:21:22 +0100
-Subject: [PATCH 2/2] Allow uncompiled templates
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="nc">Node</span> <span class="n">cur</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 좌, 하, 우</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">dx</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">};</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">dy</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">};</span>
 
----
- README.md                 |  3 +++
- src/hoganjs-utils.js      |  7 +++++++
- test/hogan-cache-tests.js | 24 +++++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
+        <span class="c1">// 달에 닿으면 pq에 넣기</span>
+        <span class="c1">// 아래로만 이동하기 때문에 depth가 필요없음</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cur</span><span class="o">.</span><span class="na">y</span> <span class="o">==</span> <span class="n">coord</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">pq</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">cur</span><span class="o">.</span><span class="na">v</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
 
-diff --git a/README.md b/README.md
-index 132c8a28..46909f25 100644
---- a/README.md
-+++ b/README.md
-@@ -98,6 +98,9 @@ The HTML output accepts a Javascript object with configuration. Possible options
-   - `synchronisedScroll`: scroll both panes in side-by-side mode: `true` or `false`, default is `false`
-   - `matchWordsThreshold`: similarity threshold for word matching, default is 0.25
-   - `matchingMaxComparisons`: perform at most this much comparisons for line matching a block of changes, default is `2500`
-+  - `templates`: object with previously compiled templates to replace parts of the html
-+  - `rawTemplates`: object with raw not compiled templates to replace parts of the html
-+  &gt; For more information regarding the possible templates look into [src/templates](https://github.com/rtfpessoa/diff2html/tree/master/src/templates)
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="na">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="na">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
 
- ## Diff2HtmlUI Helper
+            <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">coord</span><span class="o">.</span><span class="na">length</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">coord</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">v</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">||</span> <span class="n">cur</span><span class="o">.</span><span class="na">dir</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
 
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 0dda08d7..b2e9c275 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -17,6 +17,13 @@
-   function HoganJsUtils(configuration) {
-     this.config = configuration || {};
-     extraTemplates = this.config.templates || {};
-+
-+    var rawTemplates = this.config.rawTemplates || {};
-+    for (var templateName in rawTemplates) {
-+      if (rawTemplates.hasOwnProperty(templateName)) {
-+        if (!extraTemplates[templateName]) extraTemplates[templateName] = this.compile(rawTemplates[templateName]);
-+      }
-+    }
-   }
-
-   HoganJsUtils.prototype.render = function(namespace, view, params) {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 3bb754ac..a34839c0 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -36,7 +36,7 @@ describe('HoganJsUtils', function() {
-       assert.equal(null, result);
-     });
-
--    it('should allow templates to be overridden', function() {
-+    it('should allow templates to be overridden with compiled templates', function() {
-       var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-
-       var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-@@ -44,5 +44,27 @@ describe('HoganJsUtils', function() {
-       var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-       assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-     });
-+
-+    it('should allow templates to be overridden with uncompiled templates', function() {
-+      var emptyDiffTemplate = '&lt;p&gt;&lt;/p&gt;';
-+
-+      var config = {rawTemplates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-+
-+    it('should allow templates to be overridden giving priority to compiled templates', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+      var emptyDiffTemplateUncompiled = '&lt;p&gt;Not used!&lt;/p&gt;';
-+
-+      var config = {
-+        templates: {'generic-empty-diff': emptyDiffTemplate},
-+        rawTemplates: {'generic-empty-diff': emptyDiffTemplateUncompiled}
-+      };
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is how you can display code diffs]]></summary></entry><entry><title type="html">a post with advanced image components</title><link href="https://ahranah.github.io/blog/2024/advanced-images/" rel="alternate" type="text/html" title="a post with advanced image components"/><published>2024-01-27T11:46:00+00:00</published><updated>2024-01-27T11:46:00+00:00</updated><id>https://ahranah.github.io/blog/2024/advanced-images</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/advanced-images/"><![CDATA[<p>This is an example post with advanced image components.</p> <h2 id="image-slider">Image Slider</h2> <p>This is a simple image slider. It uses the <a href="https://swiperjs.com/">Swiper</a> library. Check the <a href="https://swiperjs.com/demos">examples page</a> for more information of what you can achieve with it.</p> <swiper-container keyboard="true" navigation="true" pagination="true" pagination-clickable="true" pagination-dynamic-bullets="true" rewind="true"> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/9.jpg" sizes="95vw"/> <img src="/assets/img/9.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/7.jpg" sizes="95vw"/> <img src="/assets/img/7.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/8.jpg" sizes="95vw"/> <img src="/assets/img/8.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/10.jpg" sizes="95vw"/> <img src="/assets/img/10.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> <swiper-slide> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/12.jpg" sizes="95vw"/> <img src="/assets/img/12.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </swiper-slide> </swiper-container> <h2 id="image-comparison-slider">Image Comparison Slider</h2> <p>This is a simple image comparison slider. It uses the <a href="https://img-comparison-slider.sneas.io/">img-comparison-slider</a> library. Check the <a href="https://img-comparison-slider.sneas.io/examples.html">examples page</a> for more information of what you can achieve with it.</p> <img-comparison-slider> <figure slot="first"> <picture> <source class="responsive-img-srcset" srcset="/assets/img/prof_pic.jpg" sizes="95vw"/> <img src="/assets/img/prof_pic.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> <figure slot="second"> <picture> <source class="responsive-img-srcset" srcset="/assets/img/prof_pic_color.png" sizes="95vw"/> <img src="/assets/img/prof_pic_color.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"/> </picture> </figure> </img-comparison-slider>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="images"/><summary type="html"><![CDATA[this is what advanced image components could look like]]></summary></entry><entry><title type="html">a post with vega lite</title><link href="https://ahranah.github.io/blog/2024/vega-lite/" rel="alternate" type="text/html" title="a post with vega lite"/><published>2024-01-27T00:20:00+00:00</published><updated>2024-01-27T00:20:00+00:00</updated><id>https://ahranah.github.io/blog/2024/vega-lite</id><content type="html" xml:base="https://ahranah.github.io/blog/2024/vega-lite/"><![CDATA[<p>This is an example post with some <a href="https://vega.github.io/vega-lite/">vega lite</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">vega_lite
-</span><span class="sb">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <pre><code class="language-vega_lite">{
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A dot plot showing each movie in the database, and the difference from the average movie rating. The display is sorted by year to visualize everything in sequential order. The graph is for all Movies before 2019.",
-  "data": {
-    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/movies.json"
-  },
-  "transform": [
-    {"filter": "datum['IMDB Rating'] != null"},
-    {"filter": {"timeUnit": "year", "field": "Release Date", "range": [null, 2019]}},
-    {
-      "joinaggregate": [{
-        "op": "mean",
-        "field": "IMDB Rating",
-        "as": "AverageRating"
-      }]
-    },
-    {
-      "calculate": "datum['IMDB Rating'] - datum.AverageRating",
-      "as": "RatingDelta"
-    }
-  ],
-  "mark": "point",
-  "encoding": {
-    "x": {
-      "field": "Release Date",
-      "type": "temporal"
-    },
-    "y": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "title": "Rating Delta"
-    },
-    "color": {
-      "field": "RatingDelta",
-      "type": "quantitative",
-      "scale": {"domainMid": 0},
-      "title": "Rating Delta"
-    }
-  }
-}
-</code></pre> <p>This plot supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="charts"/><summary type="html"><![CDATA[this is what included vega lite code could look like]]></summary></entry></feed>
+                <span class="n">v</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">cur</span><span class="o">.</span><span class="na">v</span> <span class="o">+</span> <span class="n">coord</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">],</span> <span class="n">j</span><span class="o">));</span>
+                <span class="n">v</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div> <h2 id="배우게-된-점">배우게 된 점</h2> <ol> <li> <p>출발점에서 visited 초기화해주니까 재귀 탈출해서 v[y][x] = false 처리가 필요없는 줄 알았다.</p> </li> <li> <p>x, y가 col, row라 헷갈려서 잘못썼다.</p> </li> </ol> <h2 id="질문">질문</h2> <p>dp코드도 봐야겠다 복잡해보임 ㅠ</p> <p><a href="https://velog.io/@gkdbssla97/BOJ-17484.-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-Small-Java">https://velog.io/@gkdbssla97/BOJ-17484.-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-Small-Java</a></p> <p><a href="https://velog.io/@gkdbssla97/BOJ-17484.-%EC%A7%84%EC%9A%B0%EC%9D%98-%EB%8B%AC-%EC%97%AC%ED%96%89-Small-Java">[BOJ] 17484. 진우의 달 여행 (Small) - Java17484.진우의 달 여행 (Small) : https://www.acmicpc.net/problem/17484 문제 설명 지구에서 달까지 가기 위해 최소한의 연료를 사용해야한다. 7시, 6시, 5시 총 3방향으로 이동할 수 있으며 직전에 움직인 방향velog.io</a></p>]]></content><author><name></name></author><category term="Algorithm"/><category term="백준"/><summary type="html"><![CDATA[문제 링크]]></summary></entry></feed>
