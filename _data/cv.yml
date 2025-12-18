@@ -1,10 +1,20 @@
 - title: General Information
   type: map
   contents:
-    - name: Hyein Jeong
-      value: 
-    - name: Languages
-      value: Korean, English
+    - name: Full Name
+      value: Hyein Jeong
+    - name: Position
+      value: Backend Engineer
+    - name: Email
+      value: window7651@gmail.com
+    - name: GitHub
+      value: <a href="https://github.com/ahranah">ahranah</a>
+    - name: YouTube
+      value: <a href="https://youtube.com/@ahranbanana">ahranabanana</a>
+    - name: Tech Blog
+      value: <a href="https://ahranah.tistory.com">ahranah.tistory.com</a>
+    - name: Personal Blog
+      value: <a href="https://blog.naver.com/ahranbanana">일상 블로그</a>
 
 - title: Education
   type: time_table
@@ -12,95 +22,128 @@
     - title: Bachelor's Degree in Computer Science
       institution: Kyung Hee University
       year: 2020 - 2025
-      description:
-        - Strong foundation in algorithms, data structures, and software engineering
-        - Focused on backend development and database systems
-        - Relevant coursework in Operating Systems, Database Management, and Network Programming
+      description: Seoul, South Korea
 
-- title: Experience
+- title: Awards & Honors
   type: time_table
   contents:
-    - title: Backend Engineer
-      year: 2023 - Present
-      description:
-        - Developed and maintained scalable backend services using Java and Spring Framework
-        - Designed and optimized database schemas and queries for improved performance
-        - Implemented RESTful APIs and microservices architecture
-        - title: Key Technologies
-          contents:
-            - Java, C++, Python
-            - Spring Framework, Spring Boot
-            - MySQL, PostgreSQL, MongoDB
-            - Git, Docker, Linux
+    - year: 2025-09
+      items:
+        - KB IT's Your Life 해커톤 최우수상 (KB국민은행)
+    - year: 2024-11
+      items:
+        - 강릉시 데이터 분석 공모전 우수상 (강릉시청)
+    - year: 2024-06
+      items:
+        - 제2회 Generative AI Ideathon 예선 입상 (뤼튼테크놀로지스)
 
-    - title: Full-Stack Developer
-      year: 2022 - 2023
-      description:
-        - Built full-stack web applications with modern frameworks
-        - Collaborated with cross-functional teams in agile environment
-        - Implemented security best practices and authentication systems
-
-- title: Certifications & Awards
+- title: Certifications
   type: time_table
   contents:
-    - year: 2025
+    - year: 2025-07
       items:
-        - 빅데이터분석기사 (Big Data Analyst Engineer)
-        - 매경테스트 최우수 (Maeil Business Test - Outstanding)
-    - year: 2024
+        - 빅데이터분석기사 (한국데이터산업진흥원)
+    - year: 2024-06
       items:
-        - ADsP (Advanced Data Analytics Semi-Professional)
-        - SQLD (SQL Developer)
+        - 정보처리기사 (한국산업인력공단)
+    - year: 2025-04
+      items:
+        - SQL 개발자 (SQLD) (한국데이터산업진흥원)
+    - year: 2024-09
+      items:
+        - 데이터분석 준전문가 (ADsP) (한국데이터산업진흥원)
+    - year: 2025-02
+      items:
+        - 매경TEST 최우수 (Master) (매일경제신문사)
 
 - title: Projects
   type: time_table
   contents:
-    - title: Financial IT System Development
-      year: 2022
-      description: Developed secure backend systems for finance-related applications with focus on data integrity and security
-    - title: Database Optimization Project
-      year: 2022
-      description: Improved query performance and designed efficient database schemas for high-traffic applications
+    - title: <a href="https://github.com/Ahranah/sysSec-5Gtestbed">5G O-RAN Security Monitoring System</a>
+      year: 2025-09 - 2025-12
+      description:
+        - 오픈소스 5G 테스트베드(srsRAN, Open5GS)를 구축하고, O-RAN E2 인터페이스 기반의 xApp을 개발하여 제어 평면(NAS/RRC)의 비암호화 취약점 및 식별자 노출을 실시간으로 탐지하는 보안 관제 시스템 구현
+        - title: Key Achievements
+          contents:
+            - 5G Standalone (SA) Testbed 구축 (Open5GS, srsRAN, USRP B210)
+            - E2SM-RC 기반 xApp 개발 (C++, Python)
+            - ASN.1 메시지 파싱 및 Null Protection Scheme 탐지 로직
+            - 실시간 위협 모니터링 대시보드 개발
+
+    - title: <a href="https://github.com/atm-gigi">고령층 친화 ATM 및 뱅킹 앱</a>
+      year: 2025-08 - 2025-09
+      description:
+        - 현금 사용이 잦은 고령층을 위해 복잡한 ATM 조작을 모바일 앱에서의 QR 코드 생성으로 대체하여 거래 시간을 단축하고 접근성을 높인 핀테크 서비스 개발
+        - title: Key Achievements
+          contents:
+            - Web Full-Stack 개발 (Vue.js, Spring Boot, MySQL)
+            - QR 코드 기반 ATM-모바일 연동 프로세스 설계
+            - 사용자 실패 경로 분석을 통한 UX 개선
+            - KB IT's Your Life 해커톤 최우수상 수상작
+
+    - title: <a href="https://github.com/MyHomeCatch">청년 맞춤형 청약 서비스 (My Home Catch)</a>
+      year: 2025-07 - 2025-08
+      description:
+        - 청약 절차에 익숙하지 않은 청년층을 위해 파편화된 공고 데이터를 통합하고, 복잡한 자격 조건을 자동으로 진단해주는 맞춤형 정보 제공 웹 서비스 개발
+        - title: Key Achievements
+          contents:
+            - 중복된 API 데이터와 비정형 PDF 공고를 '단일 주택' 중심의 ERD로 정규화하여 데이터 모델링 최적화
+            - Spring Scheduler를 활용해 LH 청약 공고 데이터를 매일 DB에 자동 동기화하는 파이프라인 구축
+            - Gemini API 프롬프트 엔지니어링을 통해 비정형 PDF 공고문을 정형 JSON 데이터로 변환하는 AI 엔진 개발
+            - 복잡한 청약 규제를 알고리즘화하여 사용자 자격 자가 진단 로직 구현 (RegTech 적용)
+
+    - title: TeeNFT Platform Development
+      year: 2025-06 - 2025-08
+      description:
+        - 실물 티셔츠와 연동되는 NFT 발행 및 교환 플랫폼 개발. 블록체인(On-Chain)과 웹 프론트엔드(Off-Chain)를 통합하여 NFT 민팅, 조회, 실물 교환(Redeem) 기능
+        - title: Key Achievements
+          contents:
+            - Solidity 기반 ERC-721 스마트 컨트랙트 작성 및 배포 (Base Sepolia)
+            - IPFS (Pinata) 연동을 통한 메타데이터 저장
+            - Alchemy SDK 및 Ethers.js를 활용한 지갑 연동 및 트랜잭션 처리
+            - Vite 기반 프론트엔드 마이그레이션 및 성능 최적화
+
+    - title: 기업 세금 환급을 위한 재무 데이터 스크래핑 자동화
+      year: 2025-01 - 2025-03
+      description:
+        - 세무 회계 기업의 의뢰로 기업 재무 데이터를 자동 수집 및 분석하여 환급액을 계산하는 웹 솔루션 개발. 기존 Selenium 방식을 Requests로 전환하여 속도를 4배 향상시킴
+        - title: Key Achievements
+          contents:
+            - Selenium 및 Requests 하이브리드 스크래핑 구현
+            - 데이터 수집 속도 최적화 (1분 → 15초)
+            - 크롬 프로필 디렉토리 복사 로직을 통한 인증 세션 유지 및 자동 복구 구현
+            - Flask 기반 웹 서버 구축 및 고객사 현장 도입
 
 - title: Technical Skills
   type: nested_list
   contents:
-    - title: Programming Languages
+    - title: Languages
       items:
-        - Java, C++, Python
-        - JavaScript, SQL
-    - title: Backend Technologies
+        - Java, Python, C++, JavaScript, SQL, Solidity
+    - title: Backend
       items:
-        - Spring Framework, Spring Boot
-        - Node.js, Express.js
-        - RESTful API Design
-    - title: Databases
+        - Spring Boot, Spring Framework, Flask, Node.js, Express.js
+    - title: Frontend
       items:
-        - MySQL, PostgreSQL, Oracle
-        - MongoDB
-        - Database Design & Optimization
-    - title: Tools & Technologies
+        - Vue.js, HTML/CSS, JavaScript
+    - title: Database
       items:
-        - Git, Docker, Linux
-        - Vue.js for full-stack development
-        - JDBC Programming
+        - MySQL, PostgreSQL, Oracle, MongoDB
+    - title: Security & Network
+      items:
+        - 5G Core, O-RAN, srsRAN, Open5GS, ASN.1, Network Protocol Analysis
+    - title: Blockchain
+      items:
+        - Solidity, Ethers.js, IPFS, Smart Contract Development
+    - title: Data & ML
+      items:
+        - Pandas, NumPy, Scikit-learn, Data Analysis, Clustering
+    - title: DevOps & Tools
+      items:
+        - Git, Docker, Linux, AWS, Selenium, RESTful API
 
-- title: Academic Interests
-  type: nested_list
-  contents:
-    - title: Data Science & Machine Learning
-      items:
-        - Big data analysis and visualization
-        - Statistical modeling and regression
-        - Deep learning fundamentals
-    - title: Software Engineering
-      items:
-        - Object-oriented programming and design patterns
-        - System architecture and microservices
-        - Database systems and optimization
-
-- title: Other Interests
+- title: Interests
   type: list
   contents:
-    - <u>Activities:</u> Open source contributions, Technical blogging, Algorithm problem solving
-    - <u>Learning:</u> Financial technology, Security engineering, Cloud architecture
+    - <u>Research:</u> Security Engineering, Financial Technology, RegTech, Web3
+    - <u>Activities:</u> Open Source Contribution, Technical Blogging, Algorithm Problem Solving
