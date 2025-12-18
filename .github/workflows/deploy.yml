@@ -67,6 +67,22 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
+      # detect modified files
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            images:
+              - 'assets/img/**'
+            posts:
+              - '_posts/**'
+            notebooks:
+              - '**/*.ipynb'
+            config:
+              - '_config.yml'
+              - 'Gemfile.lock'
+
+        
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -79,15 +95,37 @@ jobs:
           valueFile: "_config.yml"
           propertyPath: "giscus.repo"
           value: ${{ github.repository }}
+      
+      # 1. ImageMagick 결과물 캐시 (빌드 속도 최적화의 핵심)
+      - name: Cache ImageMagick 🖼️
+        uses: actions/cache@v3
+        with:
+          path: |
+            .jekyll-cache
+            _site/assets/img
+          key: ${{ runner.os }}-imagemagick-${{ hashFiles('assets/img/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-imagemagick-
+      
+      # 2. Jupyter 캐시 (매번 pip install 하는 시간 낭비 방지)
+      - name: Cache Pip 🐍
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
 
       - name: Install ImageMagick 🖼️
+        if: steps.filter.outputs.images == 'true' || steps.filter.outputs.config == 'true'
         run: sudo apt-get update && sudo apt-get install -y imagemagick
+
 
       - name: Install and Build 🔧
         run: |
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
           bundle exec jekyll build
+          
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss
